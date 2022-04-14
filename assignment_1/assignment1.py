@@ -20,25 +20,53 @@ def min_max(arr: StaticArray) -> tuple:
     # set initial values of min and max
     arr_min, arr_max = arr[0], arr[0]
 
-    # iterate through the array to identify min and max values
+    # iterate through arr to identify min and max values
     for pos in range(1, arr.length()):
         # when the current value is smaller than min
         if arr[pos] < arr_min:
-            arr_min = arr[pos]          # replace min
+            arr_min = arr[pos]              # replace min
 
         # when the current value is greater than max
         if arr[pos] > arr_max:
-            arr_max = arr[pos]          # replace max
+            arr_max = arr[pos]              # replace max
 
     return arr_min, arr_max
+
 
 # ------------------- PROBLEM 2 - FIZZ_BUZZ ---------------------------------
 
 def fizz_buzz(arr: StaticArray) -> StaticArray:
     """
-    TODO: Write this implementation
+    create a new StaticArray object that modifies the original content:
+    1) if the value is a multiple of 3, change to 'fizz'
+    2) if the value is a multiple of 5, change to 'buzz'
+    3) if the value is a multiple of both 3 and 5, change to 'fizzbuzz'
+
+    return the new object with modified content
     """
-    pass
+    # create a temporary class object
+    temp = StaticArray(arr.length())
+
+    # iterate through arr to replace values divisible by 3 or 5, or both
+    for pos in range(arr.length()):
+        # multiples of 15 (the Least Common Multiple of 3 and 5)
+        if arr[pos] % 5 == 0 and arr[pos] % 3 == 0:
+            temp[pos] = 'fizzbuzz'          # 0 is also divisible by 3 and 5
+
+        # multiples of 3
+        elif arr[pos] % 3 == 0:
+            temp[pos] = 'fizz'
+
+        # multiples of 5
+        elif arr[pos] % 5 == 0:
+            temp[pos] = 'buzz'
+
+        # fill in the remaining indices in temp
+        else:
+            temp[pos] = arr[pos]
+
+    return temp
+
 
 # ------------------- PROBLEM 3 - REVERSE -----------------------------------
 
