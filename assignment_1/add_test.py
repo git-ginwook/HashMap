@@ -19,6 +19,8 @@ class TestAssignment(unittest.TestCase):
         print(fizz_buzz(arr_2))
         print(arr_2)
 
+    def test_reverse(self):
+        pass
 
 if __name__ == '__main__':
     unittest.main()

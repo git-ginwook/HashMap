@@ -72,9 +72,18 @@ def fizz_buzz(arr: StaticArray) -> StaticArray:
 
 def reverse(arr: StaticArray) -> None:
     """
-    TODO: Write this implementation
+    reverse the order of original content in a given StaticArray object
     """
-    pass
+    # iterate through arr to swap head and tail (move inward)
+    for head_pos in range(int(arr.length() / 2)):
+        head_to_tail = arr[head_pos]        # store the value of head
+
+        tail_pos = arr.length()-head_pos-1  # identify tail position
+
+        # swap head and tail
+        arr[head_pos] = arr[tail_pos]
+        arr[tail_pos] = head_to_tail
+
 
 # ------------------- PROBLEM 4 - ROTATE ------------------------------------
 
