@@ -47,7 +47,7 @@ def fizz_buzz(arr: StaticArray) -> StaticArray:
     # create a temporary class object
     temp = StaticArray(arr.length())
 
-    # iterate through arr to replace values divisible by 3 or 5, or both
+    # iterate through 'arr' to replace values divisible by 3 or 5, or both
     for pos in range(arr.length()):
         # multiples of 15 (the Least Common Multiple of 3 and 5)
         if arr[pos] % 5 == 0 and arr[pos] % 3 == 0:
@@ -74,7 +74,7 @@ def reverse(arr: StaticArray) -> None:
     """
     reverse the order of original content in a given StaticArray object
     """
-    # iterate through arr to swap head and tail (move inward)
+    # iterate through 'arr' to swap head and tail (move inward)
     for head_pos in range(int(arr.length() / 2)):
         head_to_tail = arr[head_pos]        # store the value of head
 
@@ -89,9 +89,26 @@ def reverse(arr: StaticArray) -> None:
 
 def rotate(arr: StaticArray, steps: int) -> StaticArray:
     """
-    TODO: Write this implementation
+    rotate the array in 'arr' and place it in a new StaticArray object
+
+    if 'steps' is positive, rotate clockwise
+    if 'steps' is negative, rotate counter-clockwise
+
+    return the new object
     """
-    pass
+    # create a new StaticArray object
+    rot_arr = StaticArray(arr.length())
+
+    # truncate steps to remove repeat rotations
+    mod_steps = steps % arr.length()
+
+    # iterate through 'arr' to place the rotated content in 'rot_arr'
+    for pos in range(arr.length()):
+        new_pos = (pos+mod_steps) % arr.length()
+        rot_arr[new_pos] = arr[pos]
+
+    return rot_arr
+
 
 # ------------------- PROBLEM 5 - SA_RANGE ----------------------------------
 

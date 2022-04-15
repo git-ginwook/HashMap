@@ -20,7 +20,17 @@ class TestAssignment(unittest.TestCase):
         print(arr_2)
 
     def test_reverse(self):
-        pass
+        # odd array size test
+        source = [_ for _ in range(-10, 10, 4)]
+        arr = StaticArray(len(source))
+        for i, value in enumerate(source):
+            arr.set(i, value)
+        print(arr)
+        reverse(arr)
+        print(arr)
+        reverse(arr)
+        print(arr)
+
 
 if __name__ == '__main__':
     unittest.main()
