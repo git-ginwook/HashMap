@@ -31,7 +31,7 @@ class TestAssignment(unittest.TestCase):
         reverse(arr)
         print(arr)
 
-    def test_sa_range(self):
+    def test_is_sorted(self):
         pass
 
 
