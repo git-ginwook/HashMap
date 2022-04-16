@@ -31,6 +31,9 @@ class TestAssignment(unittest.TestCase):
         reverse(arr)
         print(arr)
 
+    def test_sa_range(self):
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

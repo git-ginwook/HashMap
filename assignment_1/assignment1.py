@@ -51,19 +51,19 @@ def fizz_buzz(arr: StaticArray) -> StaticArray:
     for pos in range(arr.length()):
         # multiples of 15 (the Least Common Multiple of 3 and 5)
         if arr[pos] % 5 == 0 and arr[pos] % 3 == 0:
-            temp[pos] = 'fizzbuzz'          # 0 is also divisible by 3 and 5
+            temp.set(pos, 'fizzbuzz')          # 0 is also divisible by 3 and 5
 
         # multiples of 3
         elif arr[pos] % 3 == 0:
-            temp[pos] = 'fizz'
+            temp.set(pos, 'fizz')
 
         # multiples of 5
         elif arr[pos] % 5 == 0:
-            temp[pos] = 'buzz'
+            temp.set(pos, 'buzz')
 
         # fill in the remaining indices in temp
         else:
-            temp[pos] = arr[pos]
+            temp.set(pos, arr[pos])
 
     return temp
 
@@ -81,8 +81,8 @@ def reverse(arr: StaticArray) -> None:
         tail_pos = arr.length()-head_pos-1  # identify tail position
 
         # swap head and tail
-        arr[head_pos] = arr[tail_pos]
-        arr[tail_pos] = head_to_tail
+        arr.set(head_pos, arr[tail_pos])
+        arr.set(tail_pos, head_to_tail)
 
 
 # ------------------- PROBLEM 4 - ROTATE ------------------------------------
@@ -105,7 +105,7 @@ def rotate(arr: StaticArray, steps: int) -> StaticArray:
     # iterate through 'arr' to place the rotated content in 'rot_arr'
     for pos in range(arr.length()):
         new_pos = (pos+mod_steps) % arr.length()
-        rot_arr[new_pos] = arr[pos]
+        rot_arr.set(new_pos, arr[pos])
 
     return rot_arr
 
@@ -116,7 +116,24 @@ def sa_range(start: int, end: int) -> StaticArray:
     """
     TODO: Write this implementation
     """
-    pass
+    #
+    size = abs(end-start)+1
+    arr = StaticArray(size)
+
+    #
+    val = start
+
+    #
+    for pos in range(size):
+        arr.set(pos, val)
+
+        if start <= end:
+            val += 1
+        else:
+            val -= 1
+
+    return arr
+
 
 # ------------------- PROBLEM 6 - IS_SORTED ---------------------------------
 
