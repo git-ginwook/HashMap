@@ -145,8 +145,7 @@ def is_sorted(arr: StaticArray) -> int:
     if arr.length() == 1:
         return 1
 
-    val = 0
-
+    val = 0                                 # set initial val
     #
     for pos in range(arr.length()-1):
         if arr[pos] < arr[pos+1]:           # ascending
@@ -157,7 +156,7 @@ def is_sorted(arr: StaticArray) -> int:
             val -= 1
             res = -1
 
-        else:
+        else:                               # same values
             return 0
 
     if abs(val) != (arr.length()-1):
@@ -172,7 +171,32 @@ def find_mode(arr: StaticArray) -> tuple:
     """
     TODO: Write this implementation
     """
-    pass
+    #
+    mod = arr[0]
+    freq = 1
+    new = 1
+
+    # base case:
+    if arr.length() == 0:
+        return mod, freq
+
+    #
+    for pos in range(1, arr.length()):
+        #
+        if arr[pos-1] == arr[pos]:
+            new += 1
+
+            #
+            if freq < new:
+                mod = arr[pos]
+                freq = new
+
+        #
+        else:
+            new = 1
+
+    return mod, freq
+
 
 # ------------------- PROBLEM 8 - REMOVE_DUPLICATES -------------------------
 

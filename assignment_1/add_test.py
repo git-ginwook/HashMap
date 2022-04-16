@@ -31,8 +31,24 @@ class TestAssignment(unittest.TestCase):
         reverse(arr)
         print(arr)
 
-    def test_is_sorted(self):
-        pass
+    def test_find_mode(self):
+        test_cases = (
+            [1, 20, 30, 40, 500, 500, 500],
+            [2, 2, 2, 2, 1, 1, 1, 1],
+            ["zebra", "sloth", "otter", "otter", "moose", "koala"],
+            ["Albania", "Belgium", "Chile", "Denmark", "Egypt", "Fiji"],
+            [-1, -1, -1, -1],               #
+            [15, 15, 1, 3, 4, 4],           #
+            [0],                            #
+            ["GinWook"]                     #
+        )
+        for case in test_cases:
+            arr = StaticArray(len(case))
+            for i, value in enumerate(case):
+                arr[i] = value
+
+            mode, frequency = find_mode(arr)
+            print(f"{arr}\nMode: {mode}, Frequency: {frequency}\n")
 
 
 if __name__ == '__main__':
