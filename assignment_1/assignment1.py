@@ -204,7 +204,32 @@ def remove_duplicates(arr: StaticArray) -> StaticArray:
     """
     TODO: Write this implementation
     """
-    pass
+    #
+    hold_arr = StaticArray(arr.length())
+    hold_arr[0] = arr[0]
+
+    # base case
+    if arr.length() == 1:
+        res_arr = StaticArray(1)
+        res_arr[0] = hold_arr[0]
+        return res_arr
+
+    #
+    num = 0
+
+    #
+    for pos in range(1, arr.length()):
+        if arr[pos-1] != arr[pos]:
+            num += 1
+            hold_arr[num] = arr[pos]
+
+    res_arr = StaticArray(num+1)
+
+    for pos in range(num+1):
+        res_arr[pos] = hold_arr[pos]
+
+    return res_arr
+
 
 # ------------------- PROBLEM 9 - COUNT_SORT --------------------------------
 

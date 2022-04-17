@@ -50,6 +50,25 @@ class TestAssignment(unittest.TestCase):
             mode, frequency = find_mode(arr)
             print(f"{arr}\nMode: {mode}, Frequency: {frequency}\n")
 
+    def test_remove_duplicates(self):
+        test_cases = (
+            [1],
+            [1, 2],
+            [1, 1, 2],
+            [1, 20, 30, 40, 500, 500, 500],
+            [5, 5, 5, 4, 4, 3, 2, 1, 1],
+            [1, 1, 1, 1, 2, 2, 2, 2],
+            [5, 5, 5, 5, 5, 5, 5],                              #
+            [-5, -5, -3, -3, -3, 0, 0, 0, 0, 0, 5]              #
+        )
+        for case in test_cases:
+            arr = StaticArray(len(case))
+            for i, value in enumerate(case):
+                arr[i] = value
+            # print(arr)
+            print(remove_duplicates(arr))
+        # print(arr)
+
 
 if __name__ == '__main__':
     unittest.main()
