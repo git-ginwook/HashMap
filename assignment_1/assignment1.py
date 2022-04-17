@@ -257,12 +257,11 @@ def count_sort(arr: StaticArray) -> StaticArray:
     for pos in range(count_arr.length()-1):
         if count_arr[pos+1] is None:
             count_arr.set(pos+1, 0)
-        accum = accum + count_arr[pos+1]
-        count_arr.set(pos+1, accum)
-    # count_arr[0] = 0
 
-    # rotate
-    count_arr = rotate(count_arr, 1)
+        add = count_arr[pos+1]
+        count_arr[pos+1] = accum
+        accum = accum + add
+
     count_arr[0] = 0
 
     # result array
@@ -284,7 +283,27 @@ def sorted_squares(arr: StaticArray) -> StaticArray:
     """
     TODO: Write this implementation
     """
-    pass
+    # new StaticArray
+    square_arr = StaticArray(arr.length())
+
+    # two pointers and one result index
+    l_point = 0
+    r_point = arr.length()-1
+    res_idx = r_point
+
+    #
+    while l_point <= r_point:
+        if abs(arr[l_point]) < abs(arr[r_point]):
+            square_arr[res_idx] = arr[r_point] ** 2
+            r_point -= 1
+
+        else:
+            square_arr[res_idx] = arr[l_point] ** 2
+            l_point += 1
+
+        res_idx -= 1
+
+    return square_arr
 
 # ------------------- BASIC TESTING -----------------------------------------
 

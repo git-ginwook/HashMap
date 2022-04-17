@@ -72,9 +72,9 @@ class TestAssignment(unittest.TestCase):
     def test_count_sort(self):
         test_cases = (
             # base case: one value
-            # [15],
+            [15],
             # negative values
-            # [-11, -10, -8, -5, -5, -1, 0, 0, 0, 14, 14, 15, 16, -11],
+            [-11, -10, -8, -5, -5, -1, 0, 0, 0, 14, 14, 15, 16, -11],
             [6, 6, 5, 4, 6, 4, 5, 1],
             [1, 2, 4, 3, 5], [5, 4, 3, 2, 1], [0, -5, -3, -4, -2, -1, 0],
             [-3, -2, -1, 0, 1, 2, 3], [1, 2, 3, 4, 3, 2, 1, 5, 5, 2, 3, 1],
@@ -90,6 +90,26 @@ class TestAssignment(unittest.TestCase):
             result = count_sort(arr)
             after = result if len(case) < 50 else 'Finished sorting large array'
             print(f"After : {after}")
+
+    def test_sorted_squares(self):
+        test_cases = (
+            [1, 2, 3, 4, 5],
+            [-5, -4, -3, -2, -1, 0],
+            [-3, -2, -2, 0, 1, 2, 3],
+            # edge cases
+            [-10, -3, -3, 1, 2, 3, 4, 4, 10],
+            [1],
+            [-1],
+            [0],
+            [0, 0]
+        )
+        for case in test_cases:
+            arr = StaticArray(len(case))
+            for i, value in enumerate(sorted(case)):
+                arr[i] = value
+            print(arr)
+            result = sorted_squares(arr)
+            print(result)
 
 
 if __name__ == '__main__':
