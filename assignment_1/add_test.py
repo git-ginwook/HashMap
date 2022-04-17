@@ -72,7 +72,7 @@ class TestAssignment(unittest.TestCase):
     def test_count_sort(self):
         test_cases = (
             # base case: one value
-
+            [15],
             # negative values
             [-11, -10, -8, -5, -5, -1, 0, 0, 0, 14, 14, 15, 16, -11],
 
