@@ -1,37 +1,25 @@
-# ------------------- PROBLEM 6 - IS_SORTED ---------------------------------
-
-def is_sorted(arr: StaticArray) -> int:
+def count_sort(arr: StaticArray) -> StaticArray:
     """
     TODO: Write this implementation
     """
-    # base case: only one value in 'arr'
-    if arr.length() == 1:
-        return 1
+    #
+    min, max = min_max(arr)
+
+    # use sa_range(max, min) to create a dummy StaticArray
+    dum_arr = sa_range(max, min)
+    count_arr = StaticArray(dum_arr.length())
+
+    count = 0
+
+    # count each value
+    for pos in range(dum_arr.length()):
+        for idx in range(arr.length()):
+            if dum_arr[pos] == arr[idx]:
+                count += 1
+                count_arr[pos] = count
+
+        count = 0
 
     #
-    lead = 0
 
-    if arr[0] < arr[1]:                     # ascending
-        sign = 1
-
-    if arr[0] > arr[1]:                     # descending
-        sign = -1
-
-    #
-    for pos in range(arr.length()-1):
-        if arr[pos] < arr[pos+1]:           # ascending
-            lead += 1
-
-            if sign != 1:
-                return 0
-
-        elif arr[pos] > arr[pos+1]:         # descending
-            lead -= 1
-
-            if sign != -1:
-                return 0
-
-        else:
-            return 0                        # two same values
-
-    return lead // (arr.length()-1)
+    return count_arr

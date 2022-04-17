@@ -65,9 +65,31 @@ class TestAssignment(unittest.TestCase):
             arr = StaticArray(len(case))
             for i, value in enumerate(case):
                 arr[i] = value
-            # print(arr)
+            print(arr)
             print(remove_duplicates(arr))
-        # print(arr)
+        print(arr)
+
+    def test_count_sort(self):
+        test_cases = (
+            # base case: one value
+
+            # negative values
+            [-11, -10, -8, -5, -5, -1, 0, 0, 0, 14, 14, 15, 16, -11],
+
+            [1, 2, 4, 3, 5], [5, 4, 3, 2, 1], [0, -5, -3, -4, -2, -1, 0],
+            [-3, -2, -1, 0, 1, 2, 3], [1, 2, 3, 4, 3, 2, 1, 5, 5, 2, 3, 1],
+            [10100, 10721, 10320, 10998], [-100320, -100450, -100999, -100001],
+
+        )
+        for case in test_cases:
+            arr = StaticArray(len(case))
+            for i, value in enumerate(case):
+                arr[i] = value
+            before = arr if len(case) < 50 else 'Started sorting large array'
+            print(f"Before: {before}")
+            result = count_sort(arr)
+            after = result if len(case) < 50 else 'Finished sorting large array'
+            print(f"After : {after}")
 
 
 if __name__ == '__main__':

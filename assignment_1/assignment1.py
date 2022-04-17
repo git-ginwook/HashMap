@@ -237,7 +237,53 @@ def count_sort(arr: StaticArray) -> StaticArray:
     """
     TODO: Write this implementation
     """
-    pass
+    # range_arr and count_arr
+    min, max = min_max(arr)
+    range_arr = sa_range(max, min)
+    count_arr = StaticArray(range_arr.length())
+
+    # fill count_arr with zero
+    for pos in range(count_arr.length()):
+        count_arr.set(pos, 0)
+
+    # frequency
+    for pos in range(arr.length()):
+        insert_at = max - arr[pos]
+        count_arr[insert_at] += 1
+
+    # accumulate
+    pos_arr = StaticArray(count_arr.length())
+
+    accum = count_arr[0]
+    pos_arr[0] = accum
+
+    ##############
+    for pos in range(count_arr.length()-1):
+        accum = accum + count_arr[pos+1]
+        pos_arr.set(pos+1, accum)
+
+    # rotate
+    rotate(pos_arr, 1)
+    pos_arr[0] = 0
+
+    # index_arr
+    sort_arr = StaticArray(arr.length())
+
+    ####################
+    for pos in range(arr.length()):
+        locator = max - arr[pos]
+        insert_at = pos_arr[locator]-1
+        sort_arr.set(insert_at, arr[pos])
+        pos_arr[locator] += 1
+
+
+    # count_arr
+
+
+
+
+    return sort_arr
+
 
 # ------------------- PROBLEM 10 - SORTED SQUARES ---------------------------
 
