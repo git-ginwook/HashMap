@@ -237,10 +237,9 @@ def count_sort(arr: StaticArray) -> StaticArray:
     """
     TODO: Write this implementation
     """
-    # range_arr and count_arr
+    # create 'count_arr'
     min, max = min_max(arr)
-    range_arr = sa_range(max, min)
-    count_arr = StaticArray(range_arr.length())
+    count_arr = sa_range(max, min)
 
     # fill count_arr with zero
     for pos in range(count_arr.length()):
@@ -252,29 +251,26 @@ def count_sort(arr: StaticArray) -> StaticArray:
         count_arr[insert_at] += 1
 
     # accumulate
-    pos_arr = StaticArray(count_arr.length())
-
     accum = count_arr[0]
-    pos_arr[0] = accum
 
     #
     for pos in range(count_arr.length()-1):
         accum = accum + count_arr[pos+1]
-        pos_arr.set(pos+1, accum)
+        count_arr.set(pos+1, accum)
 
     # rotate
-    pos_arr = rotate(pos_arr, 1)
+    count_arr = rotate(count_arr, 1)
+    count_arr[0] = 0
 
-    pos_arr[0] = 0
-
-    # index_arr
+    # result array
     sort_arr = StaticArray(arr.length())
 
+    #
     for pos in range(arr.length()):
         locator = max - arr[pos]
-        insert_at = pos_arr[locator]
+        insert_at = count_arr[locator]
         sort_arr.set(insert_at, arr[pos])
-        pos_arr[locator] += 1
+        count_arr[locator] += 1
 
     return sort_arr
 
