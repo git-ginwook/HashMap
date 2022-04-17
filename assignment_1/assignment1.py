@@ -239,15 +239,15 @@ def count_sort(arr: StaticArray) -> StaticArray:
     """
     # create 'count_arr'
     min, max = min_max(arr)
-    count_arr = sa_range(max, min)
-
-    # fill count_arr with zero
-    for pos in range(count_arr.length()):
-        count_arr.set(pos, 0)
+    length = abs(max-min)+1
+    count_arr = StaticArray(length)
 
     # frequency
     for pos in range(arr.length()):
         insert_at = max - arr[pos]
+
+        if count_arr[insert_at] is None:
+            count_arr.set(insert_at, 0)
         count_arr[insert_at] += 1
 
     # accumulate
@@ -255,8 +255,11 @@ def count_sort(arr: StaticArray) -> StaticArray:
 
     #
     for pos in range(count_arr.length()-1):
+        if count_arr[pos+1] is None:
+            count_arr.set(pos+1, 0)
         accum = accum + count_arr[pos+1]
         count_arr.set(pos+1, accum)
+    # count_arr[0] = 0
 
     # rotate
     count_arr = rotate(count_arr, 1)
