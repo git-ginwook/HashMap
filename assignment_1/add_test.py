@@ -31,6 +31,20 @@ class TestAssignment(unittest.TestCase):
         reverse(arr)
         print(arr)
 
+    def test_is_sorted(self):
+        test_cases = (
+            [1, 3, -10, 20, -30, 0],
+            [-10, 0, 0, 10, 20, 30],
+            [1, 2, 3, 4, 5, -6]
+        )
+        for case in test_cases:
+            arr = StaticArray(len(case))
+            for i, value in enumerate(case):
+                arr[i] = value
+            result = is_sorted(arr)
+            space = "  " if result >= 0 else " "
+            print(f"Result:{space}{result}, {arr}")
+
     def test_find_mode(self):
         test_cases = (
             [1, 20, 30, 40, 500, 500, 500],
@@ -58,7 +72,7 @@ class TestAssignment(unittest.TestCase):
             [1, 20, 30, 40, 500, 500, 500],
             [5, 5, 5, 4, 4, 3, 2, 1, 1],
             [1, 1, 1, 1, 2, 2, 2, 2],
-            [5, 5, 5, 5, 5, 5, 5],                              #
+            [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1],               #
             [-5, -5, -3, -3, -3, 0, 0, 0, 0, 0, 5]              #
         )
         for case in test_cases:

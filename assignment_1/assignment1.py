@@ -3,8 +3,17 @@
 # Course: CS261 - Data Structures
 # Assignment: Python Fundamentals Review
 # Due Date: 4/18/2022
-# Description:
-
+# Description: manipulate given StaticArrays in 10 different ways:
+#   1) min_max(): find min and max values
+#   2) fizz_buzz(): replace certain values with specific string values
+#   3) reverse(): reverse the order of values
+#   4) rotate(): shift position of elements by a given number of steps
+#   5) sa_range(): fill an array with consecutive integers from start to end
+#   6) is_sorted(): identify whether and how an array is sorted (or not)
+#   7) find_mode(): pinpoint the mode of an array and its frequency
+#   8) remove_duplicates(): return unique values only
+#   9) count_sort(): sort in non-ascending order with the count sort algorithm
+#   10) sorted_squares(): arrange squared values in non-descending order
 
 import random
 from static_array import *
@@ -77,7 +86,6 @@ def reverse(arr: StaticArray) -> None:
     # iterate through 'arr' to swap head and tail (move inward)
     for head_pos in range(int(arr.length() / 2)):
         head_to_tail = arr[head_pos]        # store the value of head
-
         tail_pos = arr.length()-head_pos-1  # identify tail position
 
         # swap head and tail
@@ -114,23 +122,25 @@ def rotate(arr: StaticArray, steps: int) -> StaticArray:
 
 def sa_range(start: int, end: int) -> StaticArray:
     """
-    TODO: Write this implementation
+    generate all the consecutive integers between 'start' and 'end'
     """
-    #
+    # determine the number of consecutive values
     size = abs(end-start)+1
+
+    # create a new Static Array
     arr = StaticArray(size)
 
-    #
+    # set initial input value as 'start'
     val = start
 
-    #
+    # iterate through arr to replace the 'None's with integers
     for pos in range(size):
         arr.set(pos, val)
 
-        if start <= end:
+        if start <= end:                    # ascending order
             val += 1
         else:
-            val -= 1
+            val -= 1                        # descending order
 
     return arr
 
@@ -139,61 +149,77 @@ def sa_range(start: int, end: int) -> StaticArray:
 
 def is_sorted(arr: StaticArray) -> int:
     """
-    TODO: Write this implementation
+    identify whether 'arr' is sorted
+
+    for sorted 'arr',:
+    1) if 'arr' is in strictly ascending order, return 1
+    2) if 'arr' is in strictly descending order, return -1
+
+    otherwise(not sorted), return 0
+
+    base case: if 'arr' has a single element, then return 1
     """
-    # base case: only one value in 'arr'
+    # base case
     if arr.length() == 1:
         return 1
 
-    val = 0                                 # set initial val
-    #
+    # initialize val as a strictness checker
+    val = 0
+
+    # compare two consecutive values at a time through 'arr'
     for pos in range(arr.length()-1):
-        if arr[pos] < arr[pos+1]:           # ascending
+        if arr[pos] < arr[pos+1]:           # ascending pair
             val += 1
             res = 1
 
-        elif arr[pos] > arr[pos+1]:         # descending
+        elif arr[pos] > arr[pos+1]:         # descending pair
             val -= 1
             res = -1
 
-        else:                               # same values
+        else:                               # same consecutive values
             return 0
 
+    # check for the strictness of sorting order
     if abs(val) != (arr.length()-1):
-        return 0
+        return 0                            # result of changing direction(s)
 
     return res
 
 
-# ------------------- PROBLEM 7 - FIND_MODE -----------------------------------
+# ------------------- PROBLEM 7 - FIND_MODE ---------------------------------
 
 def find_mode(arr: StaticArray) -> tuple:
     """
-    TODO: Write this implementation
+    find the most-occurring value
+    identify how many times that value appears
+
+    base case: if 'arr' has a single element, then return it as the mode
     """
-    #
+    # initialize result variables
     mod = arr[0]
     freq = 1
-    new = 1
 
-    # base case:
-    if arr.length() == 0:
+    # base case
+    if arr.length() == 1:
         return mod, freq
 
-    #
+    # set up a chaser variable to identify the mode
+    chaser = 1
+
+    # count up until the value changes when moving through 'arr'
     for pos in range(1, arr.length()):
-        #
+        # when two subsequent values are equal
         if arr[pos-1] == arr[pos]:
-            new += 1
+            chaser += 1
 
-            #
-            if freq < new:
+            # when the new value overtakes the mode
+            if freq < chaser:
                 mod = arr[pos]
-                freq = new
+                freq = chaser
 
-        #
+        # reset chaser variable when the value changes
         else:
-            new = 1
+            chaser = 1
 
     return mod, freq
 
@@ -202,31 +228,33 @@ def find_mode(arr: StaticArray) -> tuple:
 
 def remove_duplicates(arr: StaticArray) -> StaticArray:
     """
-    TODO: Write this implementation
-    """
-    #
-    hold_arr = StaticArray(arr.length())
-    hold_arr[0] = arr[0]
+    take a sorted array and remove duplicates while preserving the original
 
+    base case: if 'arr' has a single element, then return it as is
+    """
     # base case
     if arr.length() == 1:
-        res_arr = StaticArray(1)
-        res_arr[0] = hold_arr[0]
-        return res_arr
+        return arr
 
-    #
-    num = 0
+    # create a new StaticArray to hold unique values
+    hold_arr = StaticArray(arr.length())
 
-    #
+    # initialize 'hold_arr' and 'num'
+    hold_arr[0] = arr[0]
+    num = 0                                 # count unique values
+
+    # store unique values in 'hold_arr'
     for pos in range(1, arr.length()):
         if arr[pos-1] != arr[pos]:
             num += 1
-            hold_arr[num] = arr[pos]
+            hold_arr.set(num, arr[pos])
 
+    # create a new array that will contain unique values only
     res_arr = StaticArray(num+1)
 
+    # download unique values from 'hold_arr'
     for pos in range(num+1):
-        res_arr[pos] = hold_arr[pos]
+        res_arr.set(pos, hold_arr[pos])
 
     return res_arr
 
@@ -235,44 +263,60 @@ def remove_duplicates(arr: StaticArray) -> StaticArray:
 
 def count_sort(arr: StaticArray) -> StaticArray:
     """
-    TODO: Write this implementation
+    sort the values in non-ascending order using the count sort algorithm
+
+    function sections:
+    - count number of times each value in array appears
+    - accumulate count to indicate index position of each value
+    - distribute each value according to the designated index position
     """
-    # create 'count_arr'
+    # find the range of values in 'arr'
     min, max = min_max(arr)
     length = abs(max-min)+1
+
+    # create 'count_arr' to store frequency of each value in the range
     count_arr = StaticArray(length)
 
-    # frequency
+    # tally up each value from 'arr'
     for pos in range(arr.length()):
+        # identify an index position to add count
         insert_at = max - arr[pos]
 
+        # for the first count, replace 'None' with 0
         if count_arr[insert_at] is None:
             count_arr.set(insert_at, 0)
+
+        # add count in 'count_arr'
         count_arr[insert_at] += 1
 
-    # accumulate
+    # initialize the accumulator variable
     accum = count_arr[0]
 
-    #
+    # iterate through 'count_arr' to shift and accumulate counts
     for pos in range(count_arr.length()-1):
+        # replace all 'None's with 0
         if count_arr[pos+1] is None:
             count_arr.set(pos+1, 0)
 
+        # shift each count by one to the right while accumulating counts
         add = count_arr[pos+1]
-        count_arr[pos+1] = accum
+        count_arr.set(pos+1, accum)
         accum = accum + add
 
+    # reset the starting index to zero
     count_arr[0] = 0
 
-    # result array
+    # create the result array
     sort_arr = StaticArray(arr.length())
 
-    #
+    # distribute each value in 'sort_arr' as per noted in 'count_arr'
     for pos in range(arr.length()):
-        locator = max - arr[pos]
-        insert_at = count_arr[locator]
+        locator = max - arr[pos]            # index locator for 'count_arr'
+        insert_at = count_arr[locator]      # index position for 'sort_arr'
+
+        # place the current value in the designated index
         sort_arr.set(insert_at, arr[pos])
-        count_arr[locator] += 1
+        count_arr[locator] += 1             # increment for repeat(s), if any
 
     return sort_arr
 
@@ -281,27 +325,26 @@ def count_sort(arr: StaticArray) -> StaticArray:
 
 def sorted_squares(arr: StaticArray) -> StaticArray:
     """
-    TODO: Write this implementation
+    square the original values and sort again in non-descending order
     """
-    # new StaticArray
+    # create a new empty StaticArray
     square_arr = StaticArray(arr.length())
 
-    # two pointers and one result index
+    # initialize two pointers, left and right
     l_point = 0
     r_point = arr.length()-1
-    res_idx = r_point
 
-    #
-    while l_point <= r_point:
+    # compares the opposite ends until 'l_point' exceeds 'r_point'
+    for pos in range(square_arr.length()-1, -1, -1):
+        # the right-side value fills the current right end
         if abs(arr[l_point]) < abs(arr[r_point]):
-            square_arr[res_idx] = arr[r_point] ** 2
+            square_arr.set(pos, arr[r_point] ** 2)
             r_point -= 1
 
+        # the left-side value fills the current right end
         else:
-            square_arr[res_idx] = arr[l_point] ** 2
+            square_arr.set(pos, arr[l_point] ** 2)
             l_point += 1
-
-        res_idx -= 1
 
     return square_arr
 
