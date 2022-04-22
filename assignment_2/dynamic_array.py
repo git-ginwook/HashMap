@@ -161,7 +161,7 @@ class DynamicArray:
         subsequent elements move one index up (or, to the right)
 
         base case: invalid index
-            - valid indices for N elements are [0, N] inclusive
+            - valid indices for 'size' N are [0, N] inclusive
         """
         # invalid index
         if index < 0 or index > self._size:
@@ -184,8 +184,22 @@ class DynamicArray:
     def remove_at_index(self, index: int) -> None:
         """
         TODO: Write this implementation
+        base case: invalid index
+            - valid indices for 'size' N are [0, N-1] inclusive
         """
-        pass
+        # invalid index
+        if index < 0 or index > (self._size-1):
+            raise DynamicArrayException
+
+        # capacity adjustment
+        if (self._size * 4) < self._capacity:
+            if self._capacity > 10:
+                if self._size * 2 > 10:
+                    self.resize(self._size * 2)
+
+        # remove at index
+
+
 
     def slice(self, start_index: int, size: int) -> "DynamicArray":
         """
