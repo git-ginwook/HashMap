@@ -157,9 +157,29 @@ class DynamicArray:
 
     def insert_at_index(self, index: int, value: object) -> None:
         """
-        TODO: Write this implementation
+        insert 'value' at 'index' in the dynamic array
+        subsequent elements move one index up (or, to the right)
+
+        base case: invalid index
+            - valid indices for N elements are [0, N] inclusive
         """
-        pass
+        # invalid index
+        if index < 0 or index > self._size:
+            raise DynamicArrayException
+
+        # when the array is already full, double the capacity
+        if self._size == self._capacity:
+            new_capacity = self._capacity * 2
+            self.resize(new_capacity)
+
+        # insert and push each subsequent value down the row
+        for plus in range(self._size+1-index):
+            temp = self._data.get(index+plus)
+            self._data.set(index+plus, value)
+            value = temp
+
+        # adjust the array size
+        self._size += 1
 
     def remove_at_index(self, index: int) -> None:
         """
