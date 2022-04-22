@@ -1,8 +1,8 @@
-# Name:
-# OSU Email:
+# Name: GinWook Lee
+# OSU Email: leeginw@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
+# Assignment: 2 - Dynamic Array Implementation
+# Due Date: 4/25/2022
 # Description:
 
 
@@ -112,15 +112,48 @@ class DynamicArray:
 
     def resize(self, new_capacity: int) -> None:
         """
-        TODO: Write this implementation
+        expand the capacity without changing the content in the dynamic array
+
+        base case:
+        (1) new_capacity is not an integer
+        (2) new_capacity is not a positive integer
+        (3) new_capacity is less than the current size
         """
-        pass
+        # base cases
+        if type(new_capacity) is not int:
+            return                              # (1)
+
+        if new_capacity <= 0:
+            return                              # (2)
+
+        if new_capacity < self._size:
+            return                              # (3)
+
+        # create a new StaticArray
+        new_sa = StaticArray(new_capacity)
+
+        # copy values from the old to new StaticArray
+        for pos in range(self._size):
+            new_sa[pos] = self._data.get(pos)
+
+        # the new becomes the current array
+        self._data = new_sa
+        self._capacity = new_capacity
 
     def append(self, value: object) -> None:
         """
-        TODO: Write this implementation
+        add a new value at the end of the dynamic array
+
+        if the array is full, double the capacity before appending
         """
-        pass
+        # double the capacity if the capacity is full
+        if self._size == self._capacity:
+            new_capacity = self._capacity * 2
+            self.resize(new_capacity)
+
+        # append a new value and increment the size
+        self._data.set(self._size, value)
+        self._size += 1
 
     def insert_at_index(self, index: int, value: object) -> None:
         """
