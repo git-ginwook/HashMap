@@ -77,6 +77,9 @@ class TestAssignment(unittest.TestCase):
             da.remove_at_index(0)
             print(da)
 
+    def test_merge(self):
+
+
     # part 2 - bag_da
     def test_bag(self):
         pass

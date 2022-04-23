@@ -115,17 +115,14 @@ class DynamicArray:
         expand the capacity without changing the content in the dynamic array
 
         base cases:
-        (1) new_capacity is not an integer
-        (2) new_capacity is not a positive integer
-        (3) new_capacity is less than the current size
+        (1) new_capacity is not a positive integer
+        (2) new_capacity is less than the current size
         """
         # base cases
-        if type(new_capacity) is not int:
-            return                              # (1)
         if new_capacity <= 0:
-            return                              # (2)
+            return                              # (1)
         if new_capacity < self._size:
-            return                              # (3)
+            return                              # (2)
 
         # create a new StaticArray
         new_sa = StaticArray(new_capacity)
@@ -213,7 +210,8 @@ class DynamicArray:
 
     def slice(self, start_index: int, size: int) -> "DynamicArray":
         """
-        TODO: Write this implementation
+        return a new Dynamic Array that contains
+        a number of elements specified by 'size' starting from 'start_index'
 
         exception cases:
         (1) other than valid indices for the array size N, [0, N-1] inclusive
@@ -231,21 +229,37 @@ class DynamicArray:
         # create a new array
         sliced_arr = DynamicArray()
 
-        # slice
+        # slice from the dynamic array and append to 'sliced_arr'
+        for plus in range(size):
+            val = self.get_at_index(start_index + plus)
+            sliced_arr.append(val)
 
-        return DynamicArray()
+        return sliced_arr
 
     def merge(self, second_da: "DynamicArray") -> None:
         """
-        TODO: Write this implementation
+        append all values in 'second_da' to the current dynamic array
         """
-        pass
+        # append each value in 'second_da' to the dynamic array one at a time
+        for pos in range(second_da.length()):
+            self.append(second_da.get_at_index(pos))
 
     def map(self, map_func) -> "DynamicArray":
         """
-        TODO: Write this implementation
+        1) apply 'map_func' to each value in the dynamic array
+        2) append those applied values to the new array, 'map_arr'
+
+        return 'map_arr'
         """
-        pass
+        # create a new array
+        map_arr = DynamicArray()
+
+        # append to 'map_arr' after applying 'map_func' to each element
+        for pos in range(self._size):
+            val = self.get_at_index(pos)
+            map_arr.append(map_func(val))
+
+        return map_arr
 
     def filter(self, filter_func) -> "DynamicArray":
         """
