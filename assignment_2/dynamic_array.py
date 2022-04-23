@@ -309,9 +309,47 @@ class DynamicArray:
 
 def find_mode(arr: DynamicArray) -> (DynamicArray, int):
     """
-    TODO: Write this implementation
+    identify the mode value(s) in 'arr'
+
+    return mode(s) and the highest frequency
     """
-    pass
+    # set initial variables for finding the highest frequency
+    count = 1
+    freq = 1
+
+    # fetch the highest frequency
+    for pos in range(arr.length() - 1):
+        # compare two consecutive values
+        if arr.get_at_index(pos) == arr.get_at_index(pos + 1):
+            count += 1
+            if count > freq:
+                freq = count                    # update 'freq'
+        else:
+            count = 1                           # reset 'count'
+
+    # create a new array
+    mode = DynamicArray()
+
+    # when 'freq' equals 1, each value is a mode
+    if freq == 1:
+        mode.merge(arr)
+        return mode, freq
+
+    # reset 'count' for finding the mode(s)
+    count = 1
+
+    # append to 'mode' only when 'count' matches 'freq'
+    for pos in range(arr.length() - 1):
+        # compare two consecutive values
+        if arr.get_at_index(pos) == arr.get_at_index(pos + 1):
+            count += 1
+        else:
+            count = 1                           # reset 'count'
+
+        if count == freq:
+            mode.append(arr.get_at_index(pos))  # append a mode
+
+    return mode, freq
 
 # ------------------- BASIC TESTING -----------------------------------------
 
