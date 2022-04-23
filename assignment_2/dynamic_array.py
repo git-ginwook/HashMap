@@ -119,7 +119,7 @@ class DynamicArray:
         (2) new_capacity is not a positive integer
         (3) new_capacity is less than the current size
         """
-        # base cases:
+        # base cases
         if type(new_capacity) is not int:
             return                              # (1)
         if new_capacity <= 0:
@@ -158,10 +158,10 @@ class DynamicArray:
         insert 'value' at 'index' in the dynamic array
         subsequent elements move one index up (or, to the right)
 
-        base case: invalid index
+        exception case: invalid index
         (1) valid indices for 'size' N are [0, N] inclusive
         """
-        # base case
+        # exception case
         if index < 0 or index > self._size:
             raise DynamicArrayException         # (1)
 
@@ -171,9 +171,9 @@ class DynamicArray:
             self.resize(new_capacity)
 
         # insert and push each subsequent value up by one
-        for plus in range(self._size+1-index):
-            temp = self._data.get(index+plus)
-            self._data.set(index+plus, value)
+        for plus in range(self._size + 1 - index):
+            temp = self._data.get(index + plus)
+            self._data.set(index + plus, value)
             value = temp
 
         # adjust the array size
@@ -184,15 +184,18 @@ class DynamicArray:
         remove a value at the specified 'index' in the dynamic array
         values following the removed content, if any, shift down by one index
 
-        base cases:
-        (1) other than valid indices for 'size' N, [0, N-1] inclusive
-        (2) empty array (nothing to remove)
+        exception case:
+        - other than valid indices for the array size N, [0, N-1] inclusive
+        base case:
+        - empty array (nothing to remove)
         """
-        # base cases:
-        if index < 0 or index > (self._size-1):
-            raise DynamicArrayException         # (1)
+        # exception case
+        if index < 0 or index > (self._size - 1):
+            raise DynamicArrayException
+
+        # base case
         if self._size == 0:
-            return                              # (2)
+            return
 
         # capacity adjustment before removal
         if (self._size * 4) < self._capacity and self._capacity > 10:
@@ -202,8 +205,8 @@ class DynamicArray:
                 self.resize(10)                 # min capacity when reduced
 
         # remove at index and shift down each subsequent value by one
-        for plus in range(self._size-index-1):
-            self._data.set(index+plus, self._data.get(index+plus+1))
+        for plus in range(self._size - index - 1):
+            self._data.set(index + plus, self._data.get(index + plus + 1))
 
         # adjust the array size
         self._size -= 1
@@ -211,7 +214,25 @@ class DynamicArray:
     def slice(self, start_index: int, size: int) -> "DynamicArray":
         """
         TODO: Write this implementation
+
+        exception cases:
+        (1) other than valid indices for the array size N, [0, N-1] inclusive
+        (2) negative 'size' or 'size' bigger than the array size
+        (3) requesting elements beyond the end of the array
         """
+        # exception cases
+        if start_index < 0 or start_index > (self._size - 1):
+            raise DynamicArrayException         # (1)
+        if size < 0 or size > self._size:
+            raise DynamicArrayException         # (2)
+        if start_index + size > self._size:
+            raise DynamicArrayException         # (3)
+
+        # create a new array
+        sliced_arr = DynamicArray()
+
+        # slice
+
         return DynamicArray()
 
     def merge(self, second_da: "DynamicArray") -> None:
