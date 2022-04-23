@@ -227,14 +227,14 @@ class DynamicArray:
             raise DynamicArrayException         # (3)
 
         # create a new array
-        sliced_arr = DynamicArray()
+        slice_arr = DynamicArray()
 
         # slice from the dynamic array and append to 'sliced_arr'
         for plus in range(size):
             val = self.get_at_index(start_index + plus)
-            sliced_arr.append(val)
+            slice_arr.append(val)
 
-        return sliced_arr
+        return slice_arr
 
     def merge(self, second_da: "DynamicArray") -> None:
         """
@@ -263,9 +263,22 @@ class DynamicArray:
 
     def filter(self, filter_func) -> "DynamicArray":
         """
-        TODO: Write this implementation
+        load only the values that pass criteria in 'filter_func'
+
+        return 'filt_arr'
         """
-        pass
+        # create a new array
+        filt_arr = DynamicArray()
+
+        # append only the values that pass 'filter_func' to 'filt_arr'
+        for pos in range(self._size):
+            val = self.get_at_index(pos)
+
+            # append only when 'filter_func' returns True
+            if filter_func(val) is True:
+                filt_arr.append(val)
+
+        return filt_arr
 
     def reduce(self, reduce_func, initializer=None) -> object:
         """
