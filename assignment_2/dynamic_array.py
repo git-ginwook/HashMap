@@ -282,9 +282,29 @@ class DynamicArray:
 
     def reduce(self, reduce_func, initializer=None) -> object:
         """
-        TODO: Write this implementation
+        apply 'reduce_func' to each value sequentially and return the result
+
+        base case:
+        - empty dynamic array returns initializer or None
         """
-        pass
+        # base case
+        if self._size == 0:
+            return initializer
+
+        # index adjustment depending on the initial 'initializer' setting
+        adj = 0
+
+        # set 'initializer' if not provided
+        if initializer is None:
+            initializer = self.get_at_index(0)
+            adj = 1
+
+        # apply 'reduce_func' and update result on 'initializer' sequentially
+        for pos in range(self._size - adj):
+            val = self.get_at_index(pos + adj)
+            initializer = reduce_func(initializer, val)
+
+        return initializer
 
 
 def find_mode(arr: DynamicArray) -> (DynamicArray, int):
@@ -292,7 +312,6 @@ def find_mode(arr: DynamicArray) -> (DynamicArray, int):
     TODO: Write this implementation
     """
     pass
-
 
 # ------------------- BASIC TESTING -----------------------------------------
 
