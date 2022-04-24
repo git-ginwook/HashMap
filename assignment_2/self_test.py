@@ -77,12 +77,15 @@ class TestAssignment(unittest.TestCase):
             da.remove_at_index(0)
             print(da)
 
-    def test_merge(self):
-
-
     # part 2 - bag_da
-    def test_bag(self):
-        pass
+    def test_bag_add(self):
+        print("\n# add example 1")
+        bag = Bag()
+        print(bag)
+        values = [10, 20, 30, 10, 20, 30]
+        for value in values:
+            bag.add(value)
+        print(bag)
 
 
 if __name__ == '__main__':

@@ -1,8 +1,8 @@
-# Name:
-# OSU Email:
+# Name: GinWook Lee
+# OSU Email: leeginw@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
+# Assignment: 2 - Bag ADT Implementation Part 2
+# Due Date: 4/25/2022
 # Description:
 
 
@@ -46,7 +46,8 @@ class Bag:
         """
         TODO: Write this implementation
         """
-        pass
+        #
+        self._da.append(value)
 
     def remove(self, value: object) -> bool:
         """
