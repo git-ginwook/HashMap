@@ -57,7 +57,7 @@ class Bag:
         return False when there is no match
         """
         # search for a match (the first match)
-        for pos in range(self._da.length()):
+        for pos in range(self.size()):
             # return True after removing the first match
             if value == self._da.get_at_index(pos):
                 self._da.remove_at_index(pos)
@@ -74,7 +74,7 @@ class Bag:
         count = 0
 
         # increment 'count' each time a match is found
-        for pos in range(self._da.length()):
+        for pos in range(self.size()):
             if value == self._da.get_at_index(pos):
                 count += 1
 
@@ -89,9 +89,32 @@ class Bag:
 
     def equal(self, second_bag: "Bag") -> bool:
         """
-        TODO: Write this implementation
+        compare contents of the bag with 'second_bag'
+
+        equal bags mean that two bags have:
+        - the same elements
+        - the same number of each element
+
+        order of elements doesn't matter
+
+        base case: compare size
+        - two bags cannot be equal if sizes are different
         """
-        pass
+        # base case
+        if self.size() != second_bag.size():
+            return False
+
+        # compare count of each value in the two bags
+        for pos in range(self.size()):
+            # identify a value to compare
+            val = self._da.get_at_index(pos)
+
+            # return False if count defers
+            if self.count(val) != second_bag.count(val):
+                return False
+
+        # two bags are equal
+        return True
 
     def __iter__(self):
         """

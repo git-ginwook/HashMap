@@ -109,5 +109,25 @@ class TestAssignment(unittest.TestCase):
         bag.clear()
         print(bag)
 
+    def test_bag_equal(self):
+        print("\n# equal example 1")
+        bag1 = Bag([10, 20, 30, 40, 50, 60])
+        bag2 = Bag([60, 50, 40, 30, 20, 10])
+        bag3 = Bag([10, 20, 30, 40, 50])
+        bag_empty = Bag()
+
+        print(bag1, bag2, bag3, bag_empty, sep="\n")
+        print(bag1.equal(bag2), bag2.equal(bag1))
+        print(bag1.equal(bag3), bag3.equal(bag1))
+        print(bag2.equal(bag3), bag3.equal(bag2))
+        print(bag1.equal(bag_empty), bag_empty.equal(bag1))
+        print(bag_empty.equal(bag_empty))
+        print(bag1, bag2, bag3, bag_empty, sep="\n")
+
+        bag1 = Bag([100, 200, 300, 200])
+        bag2 = Bag([100, 200, 30, 100])
+        print(bag1.equal(bag2))
+
+
 if __name__ == '__main__':
     unittest.main()
