@@ -87,6 +87,15 @@ class TestAssignment(unittest.TestCase):
             bag.add(value)
         print(bag)
 
+    def test_bag_remove(self):
+        print("\n# remove example 1")
+        bag = Bag([1, 2, 3, 1, 2, 3, 1, 2, 3])
+        print(bag)
+        print(bag.remove(7), bag)
+        print(bag.remove(3), bag)
+        print(bag.remove(3), bag)
+        print(bag.remove(3), bag)
+        print(bag.remove(3), bag)
 
 if __name__ == '__main__':
     unittest.main()
