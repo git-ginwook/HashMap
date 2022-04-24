@@ -97,5 +97,10 @@ class TestAssignment(unittest.TestCase):
         print(bag.remove(3), bag)
         print(bag.remove(3), bag)
 
+    def test_bag_count(self):
+        print("\n# count example 1")
+        bag = Bag([1, 2, 3, 1, 2, 2])
+        print(bag, bag.count(1), bag.count(2), bag.count(3), bag.count(4))
+
 if __name__ == '__main__':
     unittest.main()

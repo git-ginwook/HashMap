@@ -70,7 +70,15 @@ class Bag:
         """
         TODO: Write this implementation
         """
-        pass
+        # set initial 'count' variable
+        count = 0
+
+        # increment 'count' each time a match is found
+        for pos in range(self._da.length()):
+            if value == self._da.get_at_index(pos):
+                count += 1
+
+        return count
 
     def clear(self) -> None:
         """
