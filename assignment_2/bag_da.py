@@ -118,16 +118,37 @@ class Bag:
 
     def __iter__(self):
         """
-        TODO: Write this implementation
+        set a tracker for iterator
+
+        return the class itself
         """
-        pass
+        # initialize an index for iterator
+        self._index = 0
+
+        return self
 
     def __next__(self):
         """
-        TODO: Write this implementation
-        """
-        pass
+        fetch a value in the dynamic array pointed at 'index'
 
+        increment 'index' for the next iteration
+
+        once 'index' reaches 'size' of the dynamic array,
+        raise StopIteration
+
+        return the fetched value
+        """
+        # fetch a value at 'index'
+        try:
+            val = self._da.get_at_index(self._index)
+        # stop iteration when index is not less than 'size' of dynamic array
+        except DynamicArrayException:
+            raise StopIteration
+
+        # increment 'index' for the next iteration
+        self._index += 1
+
+        return val
 
 # ------------------- BASIC TESTING -----------------------------------------
 

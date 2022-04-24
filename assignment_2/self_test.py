@@ -128,6 +128,19 @@ class TestAssignment(unittest.TestCase):
         bag2 = Bag([100, 200, 30, 100])
         print(bag1.equal(bag2))
 
+    def test_bag_iternext(self):
+        print("\n# __iter__(), __next__() example 1")
+        bag = Bag([5, 4, -8, 7, 10])
+        print(bag)
+        for item in bag:
+            print(item)
+
+        print("\n# __iter__(), __next__() example 2")
+        bag = Bag(["orange", "apple", "pizza", "ice cream"])
+        print(bag)
+        for item in bag:
+            print(item)
+
 
 if __name__ == '__main__':
     unittest.main()
