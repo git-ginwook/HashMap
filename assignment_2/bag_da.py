@@ -82,9 +82,10 @@ class Bag:
 
     def clear(self) -> None:
         """
-        TODO: Write this implementation
+        remove all contents in the bag
         """
-        pass
+        # reassign the bag with a new dynamic array
+        self._da = DynamicArray()
 
     def equal(self, second_bag: "Bag") -> bool:
         """
