@@ -3,7 +3,14 @@
 # Course: CS261 - Data Structures
 # Assignment: 2 - Bag ADT Implementation Part 2
 # Due Date: 4/25/2022
-# Description:
+# Description: implement Bag ADT class that can perform the following:
+#   1) add(): add a new value into the bag
+#   2) remove(): remove the first value that matches a specified value
+#   3) count(): identify the number of a specified element in the bag
+#   4) clear(): reset the bag to an empty bag
+#   5) equal(): compares the contents of two bags to determine whether equal
+#   6) __iter__(): enable the bag to iterate itself (create index variable)
+#   7) __next__(): return the next item in the bag (using index as a pointer)
 
 
 from dynamic_array import *
@@ -68,7 +75,9 @@ class Bag:
 
     def count(self, value: object) -> int:
         """
-        TODO: Write this implementation
+        sum up the number of 'value' in the bag
+
+        return the total number of 'value'
         """
         # set initial 'count' variable
         count = 0
@@ -96,6 +105,8 @@ class Bag:
         - the same number of each element
 
         order of elements doesn't matter
+
+        return True if equal. Otherwise, return False
 
         base case: compare size
         - two bags cannot be equal if sizes are different

@@ -3,8 +3,19 @@
 # Course: CS261 - Data Structures
 # Assignment: 2 - Dynamic Array Implementation Part 1
 # Due Date: 4/25/2022
-# Description:
-
+# Description: implement Dynamic Array class that can perform the following:
+#   1) resize(): adjust the capacity based on the number of elements
+#   2) append(): add a new value at the end of the array
+#   3) insert_at_index(): add a new value at the specified index in the array
+#   4) remove_at_index(): remove a value at the specified index in the array
+#   5) slice(): fetch value(s) within a specified portion of the array
+#   6) merge(): append an entire array to another one
+#   7) map(): apply a function to each element in the array
+#   8) filter(): select only the value(s) that passes certain criteria
+#   9) reduce(): derive one value from sequential application(s) of a function
+#
+#   Standalone function outside the Dynamic Array class:
+#   find_mode(): detect the most occurring value(s) and the highest frequency
 
 from static_array import StaticArray
 
@@ -210,8 +221,11 @@ class DynamicArray:
 
     def slice(self, start_index: int, size: int) -> "DynamicArray":
         """
-        return a new Dynamic Array that contains
-        a number of elements specified by 'size' starting from 'start_index'
+        fetch value(s) within a specified portion of the array:
+        - 'size' specifies the number of elements
+        - 'start_index' specifies where to begin slicing the array
+
+        return 'slice_arr'
 
         exception cases:
         (1) other than valid indices for the array size N, [0, N-1] inclusive
@@ -283,6 +297,8 @@ class DynamicArray:
     def reduce(self, reduce_func, initializer=None) -> object:
         """
         apply 'reduce_func' to each value sequentially and return the result
+
+        return the resulting value (stored in 'initializer')
 
         base case:
         - empty dynamic array returns initializer or None
