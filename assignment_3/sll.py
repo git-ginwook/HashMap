@@ -1,8 +1,8 @@
-# Name:
-# OSU Email:
+# Name: GinWook Lee
+# OSU Email: leeginw@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
+# Assignment: 3 - Singly Linked List Implementation
+# Due Date: 5/2/2022
 # Description:
 
 
@@ -69,15 +69,35 @@ class LinkedList:
 
     def insert_front(self, value: object) -> None:
         """
-        TODO: Write this implementation
+        add a new SLNode at the beginning of the singly linked list
         """
-        pass
+        # store the first SLNode, if any
+        post = self._head.next
+
+        # insert a new SLNode at the front (after FrontSentinel)
+        self._head.next = SLNode(value, post)
 
     def insert_back(self, value: object) -> None:
         """
-        TODO: Write this implementation
+        add a new SLNode at the end of the singly linked list
+
+        base case:
+        - linked list is empty: add a new node right after FrontSentinel
         """
-        pass
+        # base case
+        if self._head.next is None:
+            self._head.next = SLNode(value)
+            return
+
+        # point to the first node after FrontSentinel
+        node = self._head.next
+
+        # move to the end of the linked list
+        for _ in range(self.length()-1):
+            node = node.next
+
+        # add a new node after the current end node
+        node.next = SLNode(value)
 
     def insert_at_index(self, index: int, value: object) -> None:
         """
