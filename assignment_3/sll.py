@@ -101,9 +101,33 @@ class LinkedList:
 
     def insert_at_index(self, index: int, value: object) -> None:
         """
-        TODO: Write this implementation
+        add a new node at the specified 'index' position
+        connect the immediately following node as 'next' of the new node
+
+        exception case:
+        - invalid index raises SLLException
+        base case:
+        - insert 'value' at zero 'index' (=insert_front())
         """
-        pass
+        # exception case
+        if index < 0 or index > self.length():
+            raise SLLException
+
+        # base case
+        if index == 0:
+            self.insert_front(value)
+            return
+
+        # point to the first node after FrontSentinel
+        node = self._head.next
+
+        # move to the one node before the specified 'index' position
+        for _ in range(index-1):
+            node = node.next
+
+        # insert a new node at the specified 'index' position
+        post = node.next
+        node.next = SLNode(value, post)
 
     def remove_at_index(self, index: int) -> None:
         """
