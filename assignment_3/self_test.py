@@ -20,8 +20,8 @@ class TestAssignment(unittest.TestCase):
         lst.insert_back('C')
         lst.insert_back('B')
         lst.insert_back('A')
-        lst.insert_back('A')
-        lst.insert_back('A')
+        # lst.insert_back('A')
+        # lst.insert_back('A')
         print(lst)
 
     def test_insert_at_index(self):
@@ -36,6 +36,14 @@ class TestAssignment(unittest.TestCase):
                 print(lst)
             except Exception as e:
                 print(type(e))
+
+        lst = LinkedList([1, 2, 3])
+        try:
+            lst.insert_at_index(2, "B")
+            lst.insert_at_index(3, "A")
+            print(lst)
+        except:
+            print("exception")
 
     def test_remove_at_index(self):
         print('\n# remove_at_index example 1')

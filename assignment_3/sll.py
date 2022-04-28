@@ -80,20 +80,12 @@ class LinkedList:
     def insert_back(self, value: object) -> None:
         """
         add a new SLNode at the end of the singly linked list
-
-        base case:
-        - linked list is empty: add a new node right after FrontSentinel
         """
-        # base case
-        if self._head.next is None:
-            self._head.next = SLNode(value)
-            return
-
-        # point to the first node after FrontSentinel
-        node = self._head.next
+        # initialize 'node' object variable
+        node = self._head
 
         # move to the end of the linked list
-        for _ in range(self.length()-1):
+        for _ in range(self.length()):
             node = node.next
 
         # add a new node after the current end node
@@ -106,23 +98,16 @@ class LinkedList:
 
         exception case:
         - invalid index raises SLLException
-        base case:
-        - insert 'value' at zero 'index' (=insert_front())
         """
         # exception case
         if index < 0 or index > self.length():
             raise SLLException
 
-        # base case
-        if index == 0:
-            self.insert_front(value)
-            return
-
-        # point to the first node after FrontSentinel
-        node = self._head.next
+        # initialize 'node' object variable
+        node = self._head
 
         # move to the one node before the specified 'index' position
-        for _ in range(index-1):
+        for _ in range(index):
             node = node.next
 
         # insert a new node at the specified 'index' position
@@ -137,8 +122,7 @@ class LinkedList:
         exception case:
         - invalid index raises SLLException
         base case:
-        (1) empty linked list; nothing to remove
-        (2) remove the front node
+        - empty linked list; nothing to remove
         """
         # exception case
         if index < 0 or index > (self.length()-1):
@@ -146,17 +130,13 @@ class LinkedList:
 
         # base case
         if self.length() == 0:
-            return                              # (1)
+            return
 
-        # point to the first node after FrontSentinel
+        # initialize 'curr' and 'prev' nodes
         curr = self._head.next
+        prev = self._head
 
-        # base case
-        if index == 0:
-            self._head.next = curr.next
-            return                              # (2)
-
-        # move to the one node before the specified 'index' position
+        # move to the specified 'index' position
         for _ in range(index):
             prev = curr
             curr = curr.next
@@ -172,23 +152,17 @@ class LinkedList:
         return False, if 'value' to be removed is not found
 
         base case:
-        (1) empty list; nothing can be removed  -> return False
-        (2) the first node contains 'value'     -> return True
+        - empty list; nothing can be removed  -> return False
         """
         # base case
         if self.length() == 0:
-            return False                        # (1)
+            return False
 
-        # point to the first node after FrontSentinel
-        curr = self._head.next
-
-        # base case
-        if curr.value == value:
-            self._head.next = curr.next
-            return True                         # (2)
+        # initialize 'curr' object variable
+        curr = self._head
 
         # traverse the list from the beginning to the end looking for 'value'
-        for _ in range(self.length()-1):
+        for _ in range(self.length()):
             prev = curr
             curr = curr.next
 
@@ -247,7 +221,6 @@ class LinkedList:
 
     def slice(self, start_index: int, size: int) -> "LinkedList":
         """
-        TODO: Write this implementation
         copy the requested number (='size') of nodes from 'start_index'
         paste all to a new, empty LinkedList object
 
