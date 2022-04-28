@@ -68,6 +68,17 @@ class TestAssignment(unittest.TestCase):
         for value in [1, 2, 3, 1, 2, 3, 3, 2, 1]:
             print(lst.remove(value), lst.length(), lst)
 
+    def test_count(self):
+        print('\n# count example 1')
+        lst = LinkedList([1, 2, 3, 1, 2, 2, 1])
+        print(lst, lst.count(1), lst.count(2), lst.count(3), lst.count(4))
+
+        lst = LinkedList()
+        print(lst, lst.count(2))
+
+        lst = LinkedList([1])
+        print(lst, lst.count(2), lst.count(1))
+
 
 if __name__ == '__main__':
     unittest.main()

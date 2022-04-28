@@ -202,9 +202,26 @@ class LinkedList:
 
     def count(self, value: object) -> int:
         """
-        TODO: Write this implementation
+        sum up the number of 'value' in the singly linked list
+
+        return the number of 'value'
         """
-        pass
+        # set initial 'count' variable
+        count = 0
+
+        # point to the first node after FrontSentinel
+        curr = self._head.next
+
+        # traverse the list from the beginning to the end looking for 'value'
+        for _ in range(self.length()):
+            # increment count when 'value' is found
+            if curr.value == value:
+                count += 1
+
+            # move to the next node
+            curr = curr.next
+
+        return count
 
     def find(self, value: object) -> bool:
         """
