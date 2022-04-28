@@ -131,9 +131,38 @@ class LinkedList:
 
     def remove_at_index(self, index: int) -> None:
         """
-        TODO: Write this implementation
+        remove the node at the specified 'index' position
+        skip the target node when linking node(s)
+
+        exception case:
+        - invalid index raises SLLException
+        base case:
+        (1) empty linked list; nothing to remove
+        (2) remove the front node
         """
-        pass
+        # exception case
+        if index < 0 or index > (self.length()-1):
+            raise SLLException
+
+        # base case
+        if self.length() == 0:
+            return                              # (1)
+
+        # point to the first node after FrontSentinel
+        curr = self._head.next
+
+        # base case
+        if index == 0:
+            self._head.next = curr.next
+            return                              # (2)
+
+        # move to the one node before the specified 'index' position
+        for _ in range(index):
+            prev = curr
+            curr = curr.next
+
+        # skip 'curr' node at 'index' position
+        prev.next = curr.next
 
     def remove(self, value: object) -> bool:
         """

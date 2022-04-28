@@ -37,8 +37,23 @@ class TestAssignment(unittest.TestCase):
             except Exception as e:
                 print(type(e))
 
-        # test zero for zero
+    def test_remove_at_index(self):
+        print('\n# remove_at_index example 1')
+        lst = LinkedList([1, 2, 3, 4, 5, 6])
+        print(lst)
+        for index in [0, 0, 0, 2, 2, -2]:
+            print('Removed at index:', index, ': ', end='')
+            try:
+                lst.remove_at_index(index)
+                print(lst)
+            except Exception as e:
+                print(type(e))
+        print(lst)
 
+        # remove the last node
+        lst = LinkedList([1, 2, 3, 4, 5, 6])
+        lst.remove_at_index(5)
+        print(lst)
 
 if __name__ == '__main__':
     unittest.main()
