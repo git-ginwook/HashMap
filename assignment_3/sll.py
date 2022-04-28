@@ -3,7 +3,15 @@
 # Course: CS261 - Data Structures
 # Assignment: 3 - Singly Linked List Implementation
 # Due Date: 5/2/2022
-# Description:
+# Description: implement singly LinkedList object that can perform:
+#   1) insert_front(): add a new node at the beginning the linked list
+#   2) insert_back(): add a new node at the end of the linked list
+#   3) insert_at_index(): add a new node at the specified index position
+#   4) remove_at_index(): remove node at the specified index position
+#   5) remove(): remove a specified value from the linked list
+#   6) count(): add up the number of a specified value in the linked list
+#   7) find(): check whether a specified value exists in the linked list
+#   8) slice(): copy a specified portion of the linked list to a new one list
 
 
 from SLNode import *
