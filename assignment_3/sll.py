@@ -166,9 +166,39 @@ class LinkedList:
 
     def remove(self, value: object) -> bool:
         """
-        TODO: Write this implementation
+        find and remove 'value' in the singly linked list
+
+        return True, if 'value' is found
+        return False, if 'value' is not found
+
+        base case:
+        (1) empty list; nothing can be removed  -> return False
+        (2) the first node contains 'value'     -> return True
         """
-        pass
+        # base case
+        if self.length() == 0:
+            return False                        # (1)
+
+        # point to the first node after FrontSentinel
+        curr = self._head.next
+
+        # base case
+        if curr.value == value:
+            self._head.next = curr.next
+            return True                         # (2)
+
+        # traverse the list from the beginning to the end looking for 'value'
+        for _ in range(self.length()-1):
+            prev = curr
+            curr = curr.next
+
+            # when 'value' is found, remove 'value'
+            if curr.value == value:
+                prev.next = curr.next
+                return True
+
+        # nothing matches with 'value'
+        return False
 
     def count(self, value: object) -> int:
         """

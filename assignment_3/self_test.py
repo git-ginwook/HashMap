@@ -55,5 +55,19 @@ class TestAssignment(unittest.TestCase):
         lst.remove_at_index(5)
         print(lst)
 
+    def test_remove(self):
+        print('\n# remove example 1')
+        lst = LinkedList([1, 2, 3, 1, 2, 3, 1, 2, 3])
+        print(lst)
+        for value in [7, 3, 3, 3, 3]:
+            print(lst.remove(value), lst.length(), lst)
+
+        print('\n# remove example 2')
+        lst = LinkedList([1, 2, 3, 1, 2, 3, 1, 2, 3])
+        print(lst)
+        for value in [1, 2, 3, 1, 2, 3, 3, 2, 1]:
+            print(lst.remove(value), lst.length(), lst)
+
+
 if __name__ == '__main__':
     unittest.main()
