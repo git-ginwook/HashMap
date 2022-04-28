@@ -79,6 +79,43 @@ class TestAssignment(unittest.TestCase):
         lst = LinkedList([1])
         print(lst, lst.count(2), lst.count(1))
 
+    def test_find(self):
+        print('\n# find example 1')
+        lst = LinkedList(["Waldo", "Clark Kent", "Homer", "Santa Clause"])
+        print(lst)
+        print(lst.find("Waldo"))
+        print(lst.find("Superman"))
+        print(lst.find("Santa Clause"))
+
+        print(lst.find("Homer"))
+        print(lst.find("Clark Kent"))
+
+    def test_slice(self):
+        print('\n# slice example 1')
+        lst = LinkedList([1, 2, 3, 4, 5, 6, 7, 8, 9])
+        ll_slice = lst.slice(1, 3)
+        print(lst, ll_slice, sep="\n")
+        ll_slice.remove_at_index(0)
+        print(lst, ll_slice, sep="\n")
+
+        print('\n# slice example 2')
+        lst = LinkedList([10, 11, 12, 13, 14, 15, 16])
+        print("SOURCE:", lst)
+        slices = [(0, 7), (-1, 7), (0, 8), (2, 3), (5, 0), (5, 3), (6, 1)]
+        for index, size in slices:
+            print("Slice", index, "/", size, end="")
+            try:
+                print(" --- OK: ", lst.slice(index, size))
+            except:
+                print(" --- exception occurred.")
+
+        # test slicing an empty linked list
+        lst = LinkedList()
+        try:
+            print(lst.slice(0, 0))
+        except:
+            print("-- exception")
+
 
 if __name__ == '__main__':
     unittest.main()

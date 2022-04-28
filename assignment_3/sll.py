@@ -168,8 +168,8 @@ class LinkedList:
         """
         find and remove 'value' in the singly linked list
 
-        return True, if 'value' is found
-        return False, if 'value' is not found
+        return True, if 'value' to be removed is found
+        return False, if 'value' to be removed is not found
 
         base case:
         (1) empty list; nothing can be removed  -> return False
@@ -225,15 +225,60 @@ class LinkedList:
 
     def find(self, value: object) -> bool:
         """
-        TODO: Write this implementation
+        check whether 'value' exists in the singly linked list
+
+        return True, if 'value' is found
+        return False, if 'value' is not found
         """
-        pass
+        # point to the first node after FrontSentinel
+        curr = self._head.next
+
+        # traverse the list from the beginning to the end looking for 'value'
+        for _ in range(self.length()):
+            # return True when 'value' is found
+            if curr.value == value:
+                return True
+
+            # move to the next node
+            curr = curr.next
+
+        # nothing matches with 'value'
+        return False
 
     def slice(self, start_index: int, size: int) -> "LinkedList":
         """
         TODO: Write this implementation
+        copy the requested number (='size') of nodes from 'start_index'
+        paste all to a new, empty LinkedList object
+
+        return a new LinkedList with the requested slice
+
+        exception case:
+        (1) invalid 'start_index' raises SLLException
+        (2) invalid 'size' raises SLLException
         """
-        pass
+        # exception case
+        if start_index < 0 or start_index > (self.length()-1):
+            raise SLLException                  # (1)
+        if size < 0 or size > (self.length() - start_index):
+            raise SLLException                  # (2)
+
+        # point to the first node after FrontSentinel
+        curr = self._head.next
+
+        # move to the 'start_index' position
+        for _ in range(start_index):
+            curr = curr.next
+
+        # create a new LinkedList object
+        new_lst = LinkedList()
+
+        # slice the requested 'size' and paste to 'new_lst'
+        for pos in range(size):
+            new_lst.insert_back(curr.value)
+            curr = curr.next
+
+        return new_lst
 
 
 if __name__ == '__main__':
