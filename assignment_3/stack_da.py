@@ -3,7 +3,10 @@
 # Course: CS261 - Data Structures
 # Assignment: 3 - Stack ADT - Dynamic Array Implementation
 # Due Date: 5/2/2022
-# Description:
+# Description: implement stack ADT using Dynamic Array that can perform:
+#   1) push(): add a new element to the top of the stack
+#   2) pop(): remove the top element from the stack and return the top value
+#   3) top(): return the top value from the stack without removing it
 
 
 from dynamic_array import *
@@ -52,22 +55,46 @@ class Stack:
 
     def push(self, value: object) -> None:
         """
-        TODO: Write this implementation
+        append a new value to the top of the stack
         """
-        pass
+        # add 'value' to the top of the stack
+        self._da.append(value)
 
     def pop(self) -> object:
         """
-        TODO: Write this implementation
+        remove the top element from the stack
+
+        return the top value
+
+        exception case:
+        - the stack is empty; nothing to pop
         """
-        pass
+        # exception case
+        if self.is_empty():
+            raise StackException
+
+        # store the value of the top of the stack
+        top_idx = self.size() - 1
+        val = self._da.get_at_index(top_idx)
+
+        # remove the top of the stack
+        self._da.remove_at_index(top_idx)
+
+        # return the stored value
+        return val
 
     def top(self) -> object:
         """
-        TODO: Write this implementation
-        """
-        pass
+        return the top of the stack (without removing it)
 
+        exception case:
+        - the stack is empty; nothing to return
+        """
+        # exception case
+        if self.is_empty():
+            raise StackException
+
+        return self._da.get_at_index(self.size() - 1)
 
 # ------------------- BASIC TESTING -----------------------------------------
 

@@ -1,8 +1,10 @@
 import unittest
 from sll import *
+from stack_da import *
 
 
 class TestAssignment(unittest.TestCase):
+    # part 1 - singly linked list
     def test_insert_front_back(self):
         print('\n# insert_front example 1')
         lst = LinkedList()
@@ -123,6 +125,46 @@ class TestAssignment(unittest.TestCase):
             print(lst.slice(0, 0))
         except:
             print("-- exception")
+
+    # part 2 stack ADT - dynamic array implementation
+    def test_push(self):
+        print("\n# push example 1")
+        s = Stack()
+        print(s)
+        for value in [1, 2, 3, 4, 5, 1, 2]:
+            s.push(value)
+        print(s)
+
+    def test_pop(self):
+        print("\n# pop example 1")
+        s = Stack()
+        try:
+            print(s.pop())
+        except Exception as e:
+            print("Exception:", type(e))
+        for value in [1, 2, 3, 4, 5, "A", 5]:
+            s.push(value)
+        for i in range(8):
+            try:
+                print(s.pop())
+            except Exception as e:
+                print("Exception:", type(e))
+
+    def test_top(self):
+        print("\n# top example 1")
+        s = Stack()
+        try:
+            s.top()
+        except Exception as e:
+            print("No elements in stack", type(e))
+        s.push(10)
+        s.push(20)
+        s.push(30)
+        s.push("A")
+        print(s)
+        print(s.top())
+        print(s.top())
+        print(s)
 
 
 if __name__ == '__main__':
