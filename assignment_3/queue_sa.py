@@ -1,8 +1,8 @@
-# Name:
-# OSU Email:
+# Name: GinWook Lee
+# OSU Email: leeginw@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
+# Assignment: 3 - Queue ADT - Static Array Implementation
+# Due Date: 5/2/2022
 # Description:
 
 
@@ -79,7 +79,35 @@ class Queue:
         """
         TODO: Write this implementation
         """
-        pass
+        # compare 'size' and 'capacity'
+        if self._current_size == self._sa.length():
+            # double the Static Array size
+            capa = self._sa.length() * 2
+            new_sa = StaticArray(capa)
+
+            # reindex
+            for pos in range(self._current_size):
+                val = self._sa.get(self._front)
+                new_sa.set(pos, val)
+                self._front = self._increment(self._front)
+
+            # switch to the new Static Array
+            self._sa = new_sa
+
+            # reset 'front' and 'back'
+            self._front = 0
+            self._back = -1
+
+        # initialize 'start' index
+        start = self._front
+
+        # move the start
+        for _ in range(self._current_size):
+            start = self._increment(start)
+
+        # add 'value' to the end of the queue
+        self._sa.set(start, value)
+        self._current_size += 1
 
     def dequeue(self) -> object:
         """

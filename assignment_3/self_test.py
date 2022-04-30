@@ -1,6 +1,7 @@
 import unittest
 from sll import *
 from stack_da import *
+from queue_sa import *
 
 
 class TestAssignment(unittest.TestCase):
@@ -165,6 +166,17 @@ class TestAssignment(unittest.TestCase):
         print(s.top())
         print(s.top())
         print(s)
+
+    # part 3 Queue ADT - static array implementation
+    def test_enqueue(self):
+        print("\n# enqueue example 1")
+        q = Queue()
+        print(q)
+        for value in [1, 2, 3, 4, 5]:
+            q.enqueue(value)
+        print(q)
+
+        # test after dequeue
 
 
 if __name__ == '__main__':
