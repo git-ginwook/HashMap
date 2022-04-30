@@ -179,5 +179,46 @@ class TestAssignment(unittest.TestCase):
         # test after dequeue
 
 
+    def test_dequeue(self):
+        print("\n# dequeue example 1")
+        q = Queue()
+        for value in [1, 2, 3, 4, 5]:
+            q.enqueue(value)
+        print(q)
+        for i in range(q.size() + 1):
+            try:
+                print(q.dequeue())
+            except Exception as e:
+                print("No elements in queue", type(e))
+        for value in [6, 7, 8, 111, 222, 3333, 4444]:
+            q.enqueue(value)
+        print(q)
+
+        # dequeue and enqueue combo
+        q.dequeue()
+        q.enqueue("X")
+        q.enqueue("Y")
+        q.enqueue("Z")
+        q.dequeue()
+        q.dequeue()
+        q.dequeue()
+        q.enqueue("A")
+        q.enqueue("B")
+        q.enqueue("C")
+        print(q)
+
+        # reset empty queue
+        q.dequeue()
+        q.dequeue()
+        q.dequeue()
+        q.dequeue()
+        q.dequeue()
+        q.dequeue()
+        q.dequeue()
+        q.dequeue()
+        q.dequeue()
+        print(q)
+
+
 if __name__ == '__main__':
     unittest.main()

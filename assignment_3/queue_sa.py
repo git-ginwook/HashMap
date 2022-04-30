@@ -77,43 +77,54 @@ class Queue:
 
     def enqueue(self, value: object) -> None:
         """
-        TODO: Write this implementation
+        append 'value' to the end of the queue
+
+        note:
+        - 'capacity' means the size of the Static Array behind the queue ADT
+        - 'size' means the number of elements in the queue
         """
-        # compare 'size' and 'capacity'
+        # double 'capacity' when 'size' and 'capacity' are equal
         if self._current_size == self._sa.length():
-            # double the Static Array size
-            capa = self._sa.length() * 2
-            new_sa = StaticArray(capa)
+            self._double_queue()
 
-            # reindex
-            for pos in range(self._current_size):
-                val = self._sa.get(self._front)
-                new_sa.set(pos, val)
-                self._front = self._increment(self._front)
+        # increment 'back' position
+        self._back = self._increment(self._back)
 
-            # switch to the new Static Array
-            self._sa = new_sa
+        # add 'value' to the 'back' of the queue
+        self._sa.set(self._back, value)
 
-            # reset 'front' and 'back'
-            self._front = 0
-            self._back = -1
-
-        # initialize 'start' index
-        start = self._front
-
-        # move the start
-        for _ in range(self._current_size):
-            start = self._increment(start)
-
-        # add 'value' to the end of the queue
-        self._sa.set(start, value)
+        # increase 'size'
         self._current_size += 1
 
     def dequeue(self) -> object:
         """
-        TODO: Write this implementation
+        remove the value at the beginning of the queue
+
+        return the value
+
+        exception case:
+        - empty queue; nothing to remove
         """
-        pass
+        # exception case
+        if self.is_empty():
+            raise QueueException
+
+        # store 'front' value
+        val = self._sa.get(self._front)
+
+        # move 'front' position
+        self._front = self._increment(self._front)
+
+        # decrease 'size'
+        self._current_size -= 1
+
+        # reset if the queue is empty
+        if self._current_size == 0:
+            self._sa = StaticArray(4)           # adjust 'capacity'
+            self._front = 0                     # reset 'front' position
+            self._back = -1                     # reset 'back' position
+
+        return val
 
     def front(self) -> object:
         """
@@ -128,7 +139,28 @@ class Queue:
         """
         TODO: Write this implementation
         """
-        pass
+        capa = self._sa.length() * 2
+        new_sa = StaticArray(capa)
+
+        #
+        start = self._front
+
+        # reset 'front' and 'back'
+        self._front = 0
+        self._back = -1
+
+        # reindex
+        for pos in range(self._current_size):
+            self._back = self._increment(self._back)
+
+            val = self._sa.get(start)
+
+            new_sa.set(self._back, val)
+
+            start = self._increment(start)
+
+        # switch to the new Static Array
+        self._sa = new_sa
 
 
 # ------------------- BASIC TESTING -----------------------------------------
