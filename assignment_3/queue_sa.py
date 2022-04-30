@@ -4,6 +4,12 @@
 # Assignment: 3 - Queue ADT - Static Array Implementation
 # Due Date: 5/2/2022
 # Description:
+#   1) enqueue(): add a new value to the end of the queue
+#   2) dequeue(): remove and return the front value of the queue
+#   3) front(): return the front value of the queue
+#
+#   helper method for enqueue():
+#   _double_queue(): resize the capacity of Static Array behind the queue
 
 
 from static_array import StaticArray
@@ -124,42 +130,59 @@ class Queue:
             self._front = 0                     # reset 'front' position
             self._back = -1                     # reset 'back' position
 
+        # return 'front' value before dequeue
         return val
 
     def front(self) -> object:
         """
-        TODO: Write this implementation
+        return the front value of the queue (without removing it)
+
+        exception case:
+        - empty queue; nothing to return
         """
-        pass
+        # exception case
+        if self.is_empty():
+            raise QueueException
+
+        # return the front value of the queue
+        return self._sa.get(self._front)
 
     # The method below is optional, but recommended, to implement. #
     # You may alter it in any way you see fit.                     #
 
     def _double_queue(self) -> None:
         """
-        TODO: Write this implementation
+        helper method to resize the Static Array behind queue ADT
+
+        note:
+        - 'capacity' means the size of the Static Array behind the queue ADT
         """
+        # create a new Static Array with double 'capacity'
         capa = self._sa.length() * 2
         new_sa = StaticArray(capa)
 
-        #
+        # initialize 'start' variable
         start = self._front
 
         # reset 'front' and 'back'
         self._front = 0
         self._back = -1
 
-        # reindex
+        # reindex the queue when resizing
         for pos in range(self._current_size):
+            # increment 'back' position
             self._back = self._increment(self._back)
 
+            # fetch the value from the old queue
             val = self._sa.get(start)
 
+            # move 'val' to the new Static Array
             new_sa.set(self._back, val)
 
+            # increment 'start' position
             start = self._increment(start)
 
-        # switch to the new Static Array
+        # import the new Static Array to the queue
         self._sa = new_sa
 
 

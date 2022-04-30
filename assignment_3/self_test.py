@@ -179,7 +179,7 @@ class TestAssignment(unittest.TestCase):
         # test after dequeue
 
 
-    def test_dequeue(self):
+    def test_dequeue_and_front(self):
         print("\n# dequeue example 1")
         q = Queue()
         for value in [1, 2, 3, 4, 5]:
@@ -209,8 +209,11 @@ class TestAssignment(unittest.TestCase):
 
         # reset empty queue
         q.dequeue()
+        print(q.front())
         q.dequeue()
+        print(q.front())
         q.dequeue()
+        print(q.front())
         q.dequeue()
         q.dequeue()
         q.dequeue()
@@ -218,6 +221,12 @@ class TestAssignment(unittest.TestCase):
         q.dequeue()
         q.dequeue()
         print(q)
+
+        # test empty front()
+        try:
+            print(q.front())
+        except Exception as ex:
+            print("no element in the front", type(ex))
 
 
 if __name__ == '__main__':
