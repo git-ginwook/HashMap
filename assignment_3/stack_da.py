@@ -1,8 +1,8 @@
-# Name:
-# OSU Email:
+# Name: GinWook Lee
+# OSU Email: leeginw@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
+# Assignment: 3 - Stack ADT - Dynamic Array Implementation
+# Due Date: 5/2/2022
 # Description:
 
 
