@@ -1,9 +1,12 @@
-# Name:
-# OSU Email:
+# Name: GinWook Lee
+# OSU Email: leeginw@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
-# Description:
+# Assignment: 3 - Queue ADT - Linked Nodes Implementation
+# Due Date: 5/2/2022
+# Description: implement queue ADT using Linked Nodes that can perform:
+#   1) enqueue():
+#   2) dequeue():
+#   3) front():
 
 
 from SLNode import SLNode
