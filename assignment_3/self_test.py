@@ -1,8 +1,9 @@
 import unittest
 #from sll import *
 from stack_da import *
-from queue_sa import *
+# from queue_sa import *
 from stack_sll import *
+from queue_sll import *
 
 
 class TestAssignment(unittest.TestCase):
@@ -276,6 +277,46 @@ class TestAssignment(unittest.TestCase):
         s.pop()
         print(s.top())
         print(s)
+
+    # part 5. Queue ADT - Linked Nodes Implementation
+    def test_enqueue_5(self):
+        print("\n# enqueue example 1")
+        q = Queue()
+        print(q)
+        for value in [1, 2, 3, 4, 5]:
+            q.enqueue(value)
+        print(q)
+
+    def test_dequeue_5(self):
+        print("\n# dequeue example 1")
+        q = Queue()
+        for value in [1, 2, 3, 4, 5]:
+            q.enqueue(value)
+        print(q)
+        for i in range(6):
+            try:
+                print(q.dequeue())
+            except Exception as e:
+                print("No elements in queue", type(e))
+
+    def test_front_5(self):
+        print('\n#front example 1')
+        q = Queue()
+        print(q)
+        for value in ['A', 'B', 'C', 'D']:
+            try:
+                print(q.front())
+            except Exception as e:
+                print("No elements in queue", type(e))
+            q.enqueue(value)
+        print(q)
+
+        print('\n')
+        q.enqueue("A")
+        print(q)
+        q.dequeue()
+        print(q)
+        print(q.front())
 
 
 if __name__ == '__main__':

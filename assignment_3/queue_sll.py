@@ -4,9 +4,9 @@
 # Assignment: 3 - Queue ADT - Linked Nodes Implementation
 # Due Date: 5/2/2022
 # Description: implement queue ADT using Linked Nodes that can perform:
-#   1) enqueue():
-#   2) dequeue():
-#   3) front():
+#   1) enqueue(): add a new node to the end of the queue
+#   2) dequeue(): remove the current 'head' node and return its value
+#   3) front(): return the value of the 'head' node (without removing it)
 
 
 from SLNode import SLNode
@@ -67,21 +67,61 @@ class Queue:
 
     def enqueue(self, value: object) -> None:
         """
-        TODO: Write this implementation
+        append 'value' to the end of the queue
+
+        base case:
+        - if the queue is empty, the first node is both 'head' and 'tail'
         """
-        pass
+        # create a new node with 'value'
+        node = SLNode(value)
+
+        # base case
+        if self.is_empty():
+            self._head = node
+            self._tail = node
+            return
+
+        # connect the new 'node' to the current 'tail'
+        self._tail.next = node
+
+        # reassign tail to the new 'node'
+        self._tail = node
 
     def dequeue(self) -> object:
         """
-        TODO: Write this implementation
+        remove the 'head' node of the queue
+
+        return the value of the original 'head' node
+
+        exception case:
+        - empty queue; nothing to remove
         """
-        pass
+        # exception case
+        if self.is_empty():
+            raise QueueException
+
+        # store the current 'head' value
+        val = self._head.value
+
+        # switch 'head' node to the second node in the queue
+        self._head = self._head.next
+
+        # return the stored 'head' value
+        return val
 
     def front(self) -> object:
         """
-        TODO: Write this implementation
+        return the 'head' value of the queue (without removing it)
+
+        exception case:
+        - empty queue; nothing to return
         """
-        pass
+        # exception case
+        if self.is_empty():
+            raise QueueException
+
+        # return the current value of the 'head' node
+        return self._head.value
 
 
 # ------------------- BASIC TESTING -----------------------------------------
