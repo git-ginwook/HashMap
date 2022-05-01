@@ -1,7 +1,8 @@
 import unittest
-from sll import *
+#from sll import *
 from stack_da import *
 from queue_sa import *
+from stack_sll import *
 
 
 class TestAssignment(unittest.TestCase):
@@ -227,6 +228,54 @@ class TestAssignment(unittest.TestCase):
             print(q.front())
         except Exception as ex:
             print("no element in the front", type(ex))
+
+    # part 4 Stack ADT - Linked Nodes Implementation
+    def test_push_4(self):
+        print("\n# push example 1")
+        s = Stack()
+        print(s)
+        for value in [1, 2, 3, 4, 5, 5, 4]:
+            s.push(value)
+        print(s)
+
+    def test_pop_4(self):
+        print("\n# pop example 1")
+        s = Stack()
+        try:
+            print(s.pop())
+        except Exception as e:
+            print("Exception:", type(e))
+        for value in [1, 2, 3, 4, 5]:
+            s.push(value)
+        for i in range(6):
+            try:
+                print(s.pop())
+            except Exception as e:
+                print("Exception:", type(e))
+
+    def test_top_4(self):
+        print("\n# top example 1")
+        s = Stack()
+        try:
+            s.top()
+        except Exception as e:
+            print("No elements in stack", type(e))
+        s.push(10)
+        s.push(20)
+        print(s)
+        print(s.top())
+        print(s.top())
+        print(s)
+
+        s.push(30)
+        print(s.top())
+        s.push(40)
+        print(s.top())
+        print(s)
+        print(s.top())
+        s.pop()
+        print(s.top())
+        print(s)
 
 
 if __name__ == '__main__':

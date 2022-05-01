@@ -3,7 +3,10 @@
 # Course: CS261 - Data Structures
 # Assignment: 3 - Stack ADT - Linked Nodes Implementation
 # Due Date: 5/2/2022
-# Description:
+# Description: implement stack ADT using Linked Nodes that can perform:
+#   1) push(): add a new node to the top of the stack
+#   2) pop(): remove the head node from the stack and return the top value
+#   3) top(): return the value from the head node without removing it
 
 
 from SLNode import SLNode
@@ -63,21 +66,49 @@ class Stack:
 
     def push(self, value: object) -> None:
         """
-        TODO: Write this implementation
+        add a new node with 'value' to the top of the stack
         """
-        pass
+        # create a new node
+        node = SLNode(value, self._head)
+
+        # switch the head node to the new node
+        self._head = node
 
     def pop(self) -> object:
         """
-        TODO: Write this implementation
+        remove the head node from the stack
+
+        return the top value
+
+        exception case:
+        - the stack is empty; nothing to pop
         """
-        pass
+        # exception case
+        if self.is_empty():
+            raise StackException
+
+        # store the value of the top of the stack
+        val = self._head.value
+
+        # remove the top of the stack
+        self._head = self._head.next
+
+        # return the stored value
+        return val
 
     def top(self) -> object:
         """
-        TODO: Write this implementation
+        return the head value of the stack (without removing it)
+
+        exception case:
+        - the stack is empty; nothing to return
         """
-        pass
+        # exception case
+        if self.is_empty():
+            raise StackException
+
+        # return the top value of the stack
+        return self._head.value
 
 # ------------------- BASIC TESTING -----------------------------------------
 
