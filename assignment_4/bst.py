@@ -105,9 +105,41 @@ class BST:
 
     def add(self, value: object) -> None:
         """
-        TODO: Write your implementation
+        add a new node with 'value' to the tree
+
+        a smaller value is added to the left subtree,
+        a bigger or equal value is added to the right subtree
+
+        base case:
+        - empty tree
         """
-        pass
+        # base case
+        if self._root is None:
+            self._root = BSTNode(value)
+            return
+
+        # initialize a traversing node
+        nd_curr = self._root
+
+        # iterate through the tree to find the insert position
+        while nd_curr is not None:
+            if value < nd_curr.value:
+                # add the value to the left
+                if nd_curr.left is None:
+                    nd_curr.left = BSTNode(value)
+                    return
+
+                # continue traverse to the left
+                nd_curr = nd_curr.left
+
+            else:
+                # add the value to the right
+                if nd_curr.right is None:
+                    nd_curr.right = BSTNode(value)
+                    return
+
+                # continue traverse to the right
+                nd_curr = nd_curr.right
 
     def remove(self, value: object) -> bool:
         """
