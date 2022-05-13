@@ -145,6 +145,9 @@ class BST:
         """
         TODO: Write your implementation
 
+        if value is removed, return True
+        otherwise, return False
+
         remove scenarios:
         (1) the target node has no subtrees
         (2) the target node has two subtrees
@@ -157,9 +160,10 @@ class BST:
         if self._root is None:
             return False
 
-        # initialize a parent and a traversing nodes
+        # initialize variables
         nd_parent = None
         nd_curr = self._root
+        dir = 0                           # 0: root, -1: left, 1: right
 
         # find the target value
         while value != nd_curr.value:
@@ -169,9 +173,11 @@ class BST:
             # traverse left
             if value < nd_curr.value:
                 nd_curr = nd_curr.left
+                dir = -1
             # traverse right
             if value > nd_curr.value:
                 nd_curr = nd_curr.right
+                dir = 1
 
             # target node not found
             if nd_curr is None:
@@ -179,16 +185,16 @@ class BST:
 
         # scenario 1
         if nd_curr.left is None and nd_curr.right is None:
-            nd_curr._remove_no_subtrees(nd_parent, nd_curr)
+            nd_curr._remove_no_sub(nd_parent, dir)
             return True
 
         # scenario 2
         if nd_curr.left is not None and nd_curr.right is not None:
-            nd_curr._remove_two_subtrees(nd_parent, nd_curr)
+            nd_curr._remove_two_sub(nd_parent, nd_curr)
             return True
 
         # scenario 3
-        nd_curr._remove_one_subtree(nd_parent, nd_curr)
+        nd_curr._remove_one_sub(nd_parent, nd_curr, dir)
         return True
 
     # Consider implementing methods that handle different removal scenarios. #
@@ -196,21 +202,51 @@ class BST:
     # Remove these method stubs if you decide not to use them.               #
     # Change these methods in any way you'd like.                            #
 
-    def _remove_no_subtrees(self, parent: BSTNode, node: BSTNode) -> None:
+    def _remove_no_sub(self, parent: BSTNode, dir: int) -> None:
         """
-        TODO: Write your implementation
-        """
-        # remove node that has no subtrees (no left or right nodes)
-        pass
+        remove node that has no subtrees (neither left nor right nodes)
 
-    def _remove_one_subtree(self, parent: BSTNode, node: BSTNode) -> None:
+        base case:
+        - target is the root
         """
-        TODO: Write your implementation
-        """
-        # remove node that has a left or right subtree (only)
-        pass
+        # base case
+        if dir == 0:
+            self._root = None
 
-    def _remove_two_subtrees(self, parent: BSTNode, node: BSTNode) -> None:
+        # when the target node is in the left subtree of the parent
+        if dir == -1:
+            parent.left = None
+
+        # when the target node is in the right subtree of the parent
+        if dir == 1:
+            parent.right = None
+
+    def _remove_one_sub(self, parent: BSTNode, node: BSTNode, dir: int) -> None:
+        """
+        remove node that has a left or right subtree (only)
+
+        base case:
+        - target is the root
+        """
+        # base case
+        if dir == 0:
+            self._root = node
+
+        # when the target node is in the left subtree of the parent
+        if dir == -1:
+            if node.left is not None:
+                parent.left = node.left
+            else:
+                parent.left = node.right
+
+        # when the target node is in the right subtree of the parent
+        if dir == 1:
+            if node.left is not None:
+                parent.right = node.left
+            else:
+                parent.right = node.right
+
+    def _remove_two_sub(self, parent: BSTNode, node: BSTNode) -> None:
         """
         TODO: Write your implementation
         """
