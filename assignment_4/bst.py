@@ -119,36 +119,39 @@ class BST:
             return
 
         # initialize a traversing node
+        nd_parent = None
         nd_curr = self._root
 
         # iterate through the tree to find the insert position
         while nd_curr is not None:
+            # parent node chasing the current node
+            nd_parent = nd_curr
+
+            # traverse to the left
             if value < nd_curr.value:
-                # add the value to the left
-                if nd_curr.left is None:
-                    nd_curr.left = BSTNode(value)
-                    return
-
-                # continue traverse to the left
                 nd_curr = nd_curr.left
-
+            # traverse to the right
             else:
-                # add the value to the right
-                if nd_curr.right is None:
-                    nd_curr.right = BSTNode(value)
-                    return
-
-                # continue traverse to the right
                 nd_curr = nd_curr.right
+
+        # add the value as the left leaf
+        if value < nd_parent.value:
+            nd_parent.left = BSTNode(value)
+        # add the value as the right leaf
+        else:
+            nd_parent.right = BSTNode(value)
 
     def remove(self, value: object) -> bool:
         """
-        TODO: Write your implementation
+        remove a node with 'value' from the tree
+
+        if there are duplicates of 'value',
+        then remove the first one, closer to the root
 
         if value is removed, return True
         otherwise, return False
 
-        remove scenarios:
+        scenarios:
         (1) the target node has no subtrees
         (2) the target node has two subtrees
         (3) the target node has one subtree
@@ -163,7 +166,6 @@ class BST:
         # initialize variables
         nd_parent = None
         nd_curr = self._root
-        dir = 0                           # 0: root, -1: left, 1: right
 
         # find the target value
         while value != nd_curr.value:
@@ -173,11 +175,9 @@ class BST:
             # traverse left
             if value < nd_curr.value:
                 nd_curr = nd_curr.left
-                dir = -1
             # traverse right
-            if value > nd_curr.value:
+            elif value > nd_curr.value:
                 nd_curr = nd_curr.right
-                dir = 1
 
             # target node not found
             if nd_curr is None:
@@ -185,74 +185,102 @@ class BST:
 
         # scenario 1
         if nd_curr.left is None and nd_curr.right is None:
-            nd_curr._remove_no_sub(nd_parent, dir)
+            self._remove_no_sub(nd_parent, nd_curr)
             return True
 
         # scenario 2
-        if nd_curr.left is not None and nd_curr.right is not None:
-            nd_curr._remove_two_sub(nd_parent, nd_curr)
+        elif nd_curr.left is not None and nd_curr.right is not None:
+            self._remove_two_sub(nd_parent, nd_curr)
             return True
 
         # scenario 3
-        nd_curr._remove_one_sub(nd_parent, nd_curr, dir)
-        return True
+        else:
+            self._remove_one_sub(nd_parent, nd_curr)
+            return True
 
-    # Consider implementing methods that handle different removal scenarios. #
-    # Remove these comments.                                                 #
-    # Remove these method stubs if you decide not to use them.               #
-    # Change these methods in any way you'd like.                            #
-
-    def _remove_no_sub(self, parent: BSTNode, dir: int) -> None:
+    def _remove_no_sub(self, parent: BSTNode, node: BSTNode) -> None:
         """
-        remove node that has no subtrees (neither left nor right nodes)
+        remove 'node' that has no subtrees (neither left nor right nodes)
 
         base case:
         - target is the root
         """
         # base case
-        if dir == 0:
+        if parent is None:
             self._root = None
+            return
 
         # when the target node is in the left subtree of the parent
-        if dir == -1:
+        if node.value < parent.value:
             parent.left = None
 
         # when the target node is in the right subtree of the parent
-        if dir == 1:
+        else:
             parent.right = None
 
-    def _remove_one_sub(self, parent: BSTNode, node: BSTNode, dir: int) -> None:
+    def _remove_two_sub(self, parent: BSTNode, node: BSTNode) -> None:
         """
-        remove node that has a left or right subtree (only)
+        remove 'node' that has two subtrees
+
+        base case:
+        - target is the root
+        """
+        # initialize variables for inorder successor and its parent node
+        par_suc = node
+        in_suc = par_suc.right
+
+        # pinpoint inorder successor and its parent
+        while in_suc.left is not None:
+            par_suc = in_suc
+            in_suc = par_suc.left
+
+        # rewiring nodes
+        in_suc.left = node.left
+        if node.right.value != in_suc.value:
+            par_suc.left = in_suc.right
+            in_suc.right = node.right
+
+        # base case
+        if parent is None:
+            self._root = in_suc
+            return
+
+        # when the target node is in the left subtree of the parent
+        if node.value < parent.value:
+            parent.left = in_suc
+
+        # when the target node is in the right subtree of the parent
+        else:
+            parent.right = in_suc
+
+    def _remove_one_sub(self, parent: BSTNode, node: BSTNode) -> None:
+        """
+        remove 'node' that has a left or right subtree (only)
 
         base case:
         - target is the root
         """
         # base case
-        if dir == 0:
-            self._root = node
+        if parent is None:
+            if node.left is not None:
+                self._root = node.left
+            else:
+                self._root = node.right
+            return
 
         # when the target node is in the left subtree of the parent
-        if dir == -1:
+        if node.value < parent.value:
             if node.left is not None:
                 parent.left = node.left
             else:
                 parent.left = node.right
 
         # when the target node is in the right subtree of the parent
-        if dir == 1:
+        else:
             if node.left is not None:
                 parent.right = node.left
             else:
                 parent.right = node.right
-
-    def _remove_two_sub(self, parent: BSTNode, node: BSTNode) -> None:
-        """
-        TODO: Write your implementation
-        """
-        # remove node that has two subtrees
-        # need to find inorder successor and its parent (make a method!)
-        pass
 
     def contains(self, value: object) -> bool:
         """
