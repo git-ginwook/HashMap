@@ -148,7 +148,7 @@ class BST:
         if there are duplicates of 'value',
         then remove the first one, closer to the root
 
-        if value is removed, return True
+        if the value is removed, return True
         otherwise, return False
 
         scenarios:
@@ -284,9 +284,36 @@ class BST:
 
     def contains(self, value: object) -> bool:
         """
-        TODO: Write your implementation
+        search for 'value' in the tree
+
+        if the value is found, return True
+        otherwise, return False
+
+        base case:
+        - empty tree; contains nothing
         """
-        pass
+        # base case
+        if self._root is None:
+            return False
+
+        # initialize a node variable
+        nd_curr = self._root
+
+        # find the target value
+        while value != nd_curr.value:
+            # traverse left
+            if value < nd_curr.value:
+                nd_curr = nd_curr.left
+            # traverse right
+            elif value > nd_curr.value:
+                nd_curr = nd_curr.right
+
+            # target value not found
+            if nd_curr is None:
+                return False
+
+        # target value found
+        return True
 
     def inorder_traversal(self) -> Queue:
         """

@@ -101,6 +101,18 @@ class TestBST(unittest.TestCase):
                 raise Exception("PROBLEM WITH REMOVE OPERATION")
             print('RESULT :', tree)
 
+    def test_contains(self):
+        print("\nPDF - method contains() example 1")
+        print("---------------------------------")
+        tree = BST([10, 5, 15])
+        print(tree.contains(15))
+        print(tree.contains(-10))
+        print(tree.contains(15))
+
+        print("\nPDF - method contains() example 2")
+        print("---------------------------------")
+        tree = BST()
+        print(tree.contains(0))
 
 class TestAVL(unittest.TestCase):
     """ """
