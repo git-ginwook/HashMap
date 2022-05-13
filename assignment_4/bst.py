@@ -1,8 +1,8 @@
-# Name:
-# OSU Email:
+# Name: GinWook Lee
+# OSU Email: leeginw@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
+# Assignment: 4 - Binary Search Tree Implementation
+# Due Date: 5/17/2022
 # Description:
 
 
