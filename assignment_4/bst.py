@@ -144,8 +144,52 @@ class BST:
     def remove(self, value: object) -> bool:
         """
         TODO: Write your implementation
+
+        remove scenarios:
+        (1) the target node has no subtrees
+        (2) the target node has two subtrees
+        (3) the target node has one subtree
+
+        base case:
+        - empty tree; nothing to remove
         """
-        pass
+        # base case
+        if self._root is None:
+            return False
+
+        # initialize a parent and a traversing nodes
+        nd_parent = None
+        nd_curr = self._root
+
+        # find the target value
+        while value != nd_curr.value:
+            # parent node chasing the current node
+            nd_parent = nd_curr
+
+            # traverse left
+            if value < nd_curr.value:
+                nd_curr = nd_curr.left
+            # traverse right
+            if value > nd_curr.value:
+                nd_curr = nd_curr.right
+
+            # target node not found
+            if nd_curr is None:
+                return False
+
+        # scenario 1
+        if nd_curr.left is None and nd_curr.right is None:
+            nd_curr._remove_no_subtrees(nd_parent, nd_curr)
+            return True
+
+        # scenario 2
+        if nd_curr.left is not None and nd_curr.right is not None:
+            nd_curr._remove_two_subtrees(nd_parent, nd_curr)
+            return True
+
+        # scenario 3
+        nd_curr._remove_one_subtree(nd_parent, nd_curr)
+        return True
 
     # Consider implementing methods that handle different removal scenarios. #
     # Remove these comments.                                                 #

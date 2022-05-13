@@ -48,6 +48,9 @@ class TestBST(unittest.TestCase):
                 raise Exception("PROBLEM WITH ADD OPERATION")
         print('add() stress test finished')
 
+    def test_remove(self):
+        pass
+
 
 class TestAVL(unittest.TestCase):
     """ """
