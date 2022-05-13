@@ -114,6 +114,18 @@ class TestBST(unittest.TestCase):
         tree = BST()
         print(tree.contains(0))
 
+    def test_inorder(self):
+        print("\nPDF - method inorder_traversal() example 1")
+        print("---------------------------------")
+        tree = BST([10, 20, 5, 15, 17, 7, 12])
+        print(tree.inorder_traversal())
+
+        print("\nPDF - method inorder_traversal() example 2")
+        print("---------------------------------")
+        tree = BST([8, 10, -4, 5, -1])
+        print(tree.inorder_traversal())
+
+
 class TestAVL(unittest.TestCase):
     """ """
     def test_something(self):

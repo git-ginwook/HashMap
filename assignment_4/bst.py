@@ -3,8 +3,15 @@
 # Course: CS261 - Data Structures
 # Assignment: 4 - Binary Search Tree Implementation
 # Due Date: 5/17/2022
-# Description:
-
+# Description: implement Binary Search Tree that can perform:
+#   1) add(): insert a new value to the tree (duplicates are allowed)
+#   2) remove(): remove a target value from the tree
+#   3) contains(): check whether a target value is in the tree
+#   4) inorder_traversal(): traverse values in inorder (left - visit - right)
+#   5) find_min(): identify the lowest value in the tree
+#   6) find_max(): identify the highest value in the tree
+#   7) is_empty(): check whether the tree is empty
+#   8) make_empty(): reset the tree to contain nothing
 
 import random
 from queue_and_stack import Queue, Stack
@@ -317,9 +324,39 @@ class BST:
 
     def inorder_traversal(self) -> Queue:
         """
-        TODO: Write your implementation
+        perform an *inorder traversal* of the tree
+            * traverse left -> visit -> traverse right
+
+        return a Queue object with the values in inorder
+
+        base case:
+        - empty tree; return an empty Queue
         """
-        pass
+        # create an empty queue
+        queue = Queue()
+
+        # base case
+        if self._root is None:
+            return queue
+
+        # initialize a node
+        node = self._root
+
+        # use a recursive helper method to build the queue object
+        return self._inorder(node, queue)
+
+    def _inorder(self, node: BSTNode, queue: Queue) -> Queue:
+        """
+        a recursive helper method to enqueue all values in the tree in inorder
+
+        return the fully-built Queue object
+        """
+        if node is not None:
+            self._inorder(node.left, queue)
+            queue.enqueue(node.value)
+            self._inorder(node.right, queue)
+
+        return queue
 
     def find_min(self) -> object:
         """
