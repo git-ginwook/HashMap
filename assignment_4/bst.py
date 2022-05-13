@@ -323,27 +323,66 @@ class BST:
 
     def find_min(self) -> object:
         """
-        TODO: Write your implementation
+        identify the lowest value in the tree
+
+        base case:
+        - empty tree; no minimum value -> None
         """
-        pass
+        # base case
+        if self._root is None:
+            return None
+
+        # initialize a traversing node
+        node = self._root
+
+        # traverse the tree far down the left
+        while node is not None:
+            parent = node
+            node = node.left
+
+        # return the lowest value
+        return parent.value
 
     def find_max(self) -> object:
         """
-        TODO: Write your implementation
+        identify the highest value in the tree
+
+        base case:
+        - empty tree; no maximum value -> None
         """
-        pass
+        # base case
+        if self._root is None:
+            return None
+
+        # initialize a traversing node
+        node = self._root
+
+        # traverse the tree far down the right
+        while node is not None:
+            parent = node
+            node = node.right
+
+        # return the highest value
+        return parent.value
 
     def is_empty(self) -> bool:
         """
-        TODO: Write your implementation
+        check whether the tree is empty
+
+        if the root is None, return True
+        Otherwise, return False
         """
-        pass
+        # check the root
+        if self._root is None:
+            return True
+
+        return False
 
     def make_empty(self) -> None:
         """
-        TODO: Write your implementation
+        reset the tree; contains nothing
         """
-        pass
+        self._root = None
 
 
 # ------------------- BASIC TESTING -----------------------------------------
