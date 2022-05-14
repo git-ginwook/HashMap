@@ -1,5 +1,6 @@
 import unittest
 from bst import *
+from avl import *
 
 
 class TestBST(unittest.TestCase):
