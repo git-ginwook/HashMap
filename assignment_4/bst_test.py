@@ -129,8 +129,49 @@ class TestBST(unittest.TestCase):
 
 class TestAVL(unittest.TestCase):
     """ """
-    def test_something(self):
-        pass
+    def test_add(self):
+        print("\nPDF - method add() example 1")
+        print("----------------------------")
+        test_cases = (
+            (1, 2, 3),  # RR
+            (3, 2, 1),  # LL
+            (1, 3, 2),  # RL
+            (3, 1, 2),  # LR
+        )
+        for case in test_cases:
+            tree = AVL(case)
+            print(tree)
+
+        print("\nPDF - method add() example 2")
+        print("----------------------------")
+        test_cases = (
+            (10, 20, 30, 40, 50),  # RR, RR
+            (10, 20, 30, 50, 40),  # RR, RL
+            (30, 20, 10, 5, 1),  # LL, LL
+            (30, 20, 10, 1, 5),  # LL, LR
+            (5, 4, 6, 3, 7, 2, 8),  # LL, RR
+            (range(0, 30, 3)),
+            (range(0, 31, 3)),
+            (range(0, 34, 3)),
+            (range(10, -10, -2)),
+            ('A', 'B', 'C', 'D', 'E'),
+            (1, 1, 1, 1),
+        )
+        for case in test_cases:
+            tree = AVL(case)
+            print('INPUT  :', case)
+            print('RESULT :', tree)
+
+        print("\nPDF - method add() example 3")
+        print("----------------------------")
+        for _ in range(100):
+            case = list(set(random.randrange(1, 20000) for _ in range(900)))
+            tree = AVL()
+            for value in case:
+                tree.add(value)
+            if not tree.is_valid_avl():
+                raise Exception("PROBLEM WITH ADD OPERATION")
+        print('add() stress test finished')
 
 
 if __name__ == '__main__':

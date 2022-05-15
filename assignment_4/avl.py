@@ -102,8 +102,51 @@ class AVL(BST):
     def add(self, value: object) -> None:
         """
         TODO: Write your implementation
+        insert a new node...
+        rebalance...
+
+        base case:
+        - empty tree
         """
-        pass
+        # base case
+        if self._root is None:
+            self._root = AVLNode(value)
+            return
+
+        # initialize a traversing node
+        node = self._root
+        p_node = node.parent
+
+        # iterate through the tree to find the correct position
+        while node is not None:
+            # no duplicates are allowed
+            if value == node.value:
+                return
+
+            # parent node chasing the current node
+            p_node = node
+
+            if value < node.value:
+                node = node.left                # traverse left
+            else:
+                node = node.right               # traverse right
+
+        # add a new node
+        if value < p_node.value:
+            p_node.left = AVLNode(value)        # add on the left subtree
+            node = p_node.left
+
+        else:
+            p_node.right = AVLNode(value)       # add on the right subtree
+            node = p_node.right
+
+        # update node's parent
+        node.parent = p_node
+
+        # trace upward and rebalance along the way
+        while p_node is not None:
+            self._rebalance(p_node)
+            p_node = p_node.parent
 
     def remove(self, value: object) -> bool:
         """
@@ -134,37 +177,124 @@ class AVL(BST):
         """
         TODO: Write your implementation
         """
-        pass
+        return self._get_height(node.right) - self._get_height(node.left)
 
     def _get_height(self, node: AVLNode) -> int:
         """
         TODO: Write your implementation
         """
-        pass
+        # height of an empty subtree
+        if node is None:
+            return -1
+
+        return node.height
 
     def _rotate_left(self, node: AVLNode) -> AVLNode:
         """
         TODO: Write your implementation
         """
-        pass
+        # create a pointer for the upcoming subtree root after rotation
+        center = node.right
+
+        # attach center node's left subtree to the node's right
+        node.right = center.left
+        if node.right is not None:
+            node.right.parent = node
+
+        # update affected node's properties
+        center.left = node
+        # node.parent = center
+
+        # update heights
+        self._update_height(node)
+        self._update_height(center)
+
+        return center
 
     def _rotate_right(self, node: AVLNode) -> AVLNode:
         """
         TODO: Write your implementation
         """
-        pass
+        # create a pointer for the upcoming subtree root after rotation
+        center = node.left
+
+        # attach center node's right subtree to the node's left
+        node.left = center.right
+        if node.left is not None:
+            node.left.parent = node
+
+        # update affected node's properties
+        center.right = node
+        # node.parent = center
+
+        # update heights
+        self._update_height(node)
+        self._update_height(center)
+
+        return center
 
     def _update_height(self, node: AVLNode) -> None:
         """
         TODO: Write your implementation
         """
-        pass
+        # heights of left and right subtrees
+        h_left = self._get_height(node.left)
+        h_right = self._get_height(node.right)
+
+        # update node's height
+        node.height = max(h_left, h_right) + 1
 
     def _rebalance(self, node: AVLNode) -> None:
         """
         TODO: Write your implementation
+        base case:
+        - balanced node; update height
         """
-        pass
+        # base case
+        if -1 <= self._balance_factor(node) <= 1:
+            self._update_height(node)
+            return
+
+        # check height balance (left-heavy)
+        if self._balance_factor(node) < -1:
+            # check for double rotation
+            if self._balance_factor(node.left) > 0:
+                new_center = self._rotate_left(node.left)
+                node.left.parent = new_center
+                node.left = new_center
+                new_center.parent = node
+
+            # single rotation (right)
+            sub_root = self._rotate_right(node)
+
+        # check height balance (right-heavy)
+        else:
+            # check for double rotation
+            if self._balance_factor(node.right) < 0:
+                new_center = self._rotate_right(node.right)
+                node.right.parent = new_center
+                node.right = new_center
+                new_center.parent = node
+
+            # single rotation (left)
+            sub_root = self._rotate_left(node)
+
+        # update sub_root's parent
+        sub_root.parent = node.parent
+
+        # update sub_root's position relative to its parent
+        if node.parent is not None:
+            if sub_root.value < node.parent.value:
+                node.parent.left = sub_root
+            else:
+                node.parent.right = sub_root
+
+            node.parent = sub_root
+
+        else:
+            node.parent = sub_root
+            self._root = sub_root
+
 
 # ------------------- BASIC TESTING -----------------------------------------
 
