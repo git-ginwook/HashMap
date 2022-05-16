@@ -101,12 +101,12 @@ class AVL(BST):
 
     def add(self, value: object) -> None:
         """
-        TODO: Write your implementation
-        insert a new node...
-        rebalance...
+        insert a new node with 'value' and rebalance the tree as necessary
+
+        duplicate values are not allowed
 
         base case:
-        - empty tree
+        - empty tree; add to the root
         """
         # base case
         if self._root is None:
@@ -117,7 +117,7 @@ class AVL(BST):
         node = self._root
         p_node = node.parent
 
-        # iterate through the tree to find the correct position
+        # iterate through the tree to find the insert position
         while node is not None:
             # no duplicates are allowed
             if value == node.value:
@@ -126,21 +126,21 @@ class AVL(BST):
             # parent node chasing the current node
             p_node = node
 
+            # traversing path selection
             if value < node.value:
                 node = node.left                # traverse left
             else:
                 node = node.right               # traverse right
 
-        # add a new node
+        # create and add a new node
         if value < p_node.value:
-            p_node.left = AVLNode(value)        # add on the left subtree
+            p_node.left = AVLNode(value)        # add to the left
             node = p_node.left
-
         else:
-            p_node.right = AVLNode(value)       # add on the right subtree
+            p_node.right = AVLNode(value)       # add to the right
             node = p_node.right
 
-        # update node's parent
+        # update node's parent property
         node.parent = p_node
 
         # trace upward and rebalance along the way
@@ -167,21 +167,19 @@ class AVL(BST):
         """
         pass
 
-    # It's highly recommended to implement                          #
-    # the following methods for balancing the AVL Tree.             #
-    # Remove these comments.                                        #
-    # Remove these method stubs if you decide not to use them.      #
-    # Change these methods in any way you'd like.                   #
-
     def _balance_factor(self, node: AVLNode) -> int:
         """
-        TODO: Write your implementation
+        subtract the left child's height from the right child's
+
+        return the result
         """
         return self._get_height(node.right) - self._get_height(node.left)
 
     def _get_height(self, node: AVLNode) -> int:
         """
-        TODO: Write your implementation
+        return the height of 'node'
+
+        return -1 for an empty node
         """
         # height of an empty subtree
         if node is None:
@@ -191,7 +189,16 @@ class AVL(BST):
 
     def _rotate_left(self, node: AVLNode) -> AVLNode:
         """
-        TODO: Write your implementation
+        rotate 'node' down to the left and move up the right subtree
+
+        if the right subtree has a left child,
+        switch it to the right child of 'node'
+
+        move up the right subtree of 'node' to the center, where 'node' was
+
+        readjust nodes' properties: parent, height
+
+        return the center node after rotation
         """
         # create a pointer for the upcoming subtree root after rotation
         center = node.right
@@ -203,7 +210,6 @@ class AVL(BST):
 
         # update affected node's properties
         center.left = node
-        # node.parent = center
 
         # update heights
         self._update_height(node)
@@ -213,7 +219,16 @@ class AVL(BST):
 
     def _rotate_right(self, node: AVLNode) -> AVLNode:
         """
-        TODO: Write your implementation
+        rotate 'node' down to the right and move up the left subtree
+
+        if the left subtree has a right child,
+        switch it to the left child of 'node'
+
+        move up the left subtree of 'node' to the center, where 'node' was
+
+        readjust nodes' properties: parent, height
+
+        return the center node after rotation
         """
         # create a pointer for the upcoming subtree root after rotation
         center = node.left
@@ -225,7 +240,6 @@ class AVL(BST):
 
         # update affected node's properties
         center.right = node
-        # node.parent = center
 
         # update heights
         self._update_height(node)
@@ -235,7 +249,7 @@ class AVL(BST):
 
     def _update_height(self, node: AVLNode) -> None:
         """
-        TODO: Write your implementation
+        new height equals the greater height of left and right plus one
         """
         # heights of left and right subtrees
         h_left = self._get_height(node.left)
@@ -246,9 +260,18 @@ class AVL(BST):
 
     def _rebalance(self, node: AVLNode) -> None:
         """
-        TODO: Write your implementation
+        perform left/right, single/double rotations based on the checks:
+        - check whether the tree is left- or right-heavy
+        - check whether the tree requires a double rotation
+
+        4 possible scenarios:
+        (1) L-R: 'node' is left-heavy while its left child is right-heavy
+        (2) L-L: both 'node' and its left child are left-heavy
+        (3) R-L: 'node' is right-heavy while its right child is left-heavy
+        (4) R-R: both 'node' and its right child are right-heavy
+
         base case:
-        - balanced node; update height
+        - balanced node; update height and return
         """
         # base case
         if -1 <= self._balance_factor(node) <= 1:
@@ -260,6 +283,7 @@ class AVL(BST):
             # check for double rotation
             if self._balance_factor(node.left) > 0:
                 new_center = self._rotate_left(node.left)
+                # adjust properties
                 node.left.parent = new_center
                 node.left = new_center
                 new_center.parent = node
@@ -272,6 +296,7 @@ class AVL(BST):
             # check for double rotation
             if self._balance_factor(node.right) < 0:
                 new_center = self._rotate_right(node.right)
+                # adjust properties
                 node.right.parent = new_center
                 node.right = new_center
                 new_center.parent = node
@@ -288,9 +313,10 @@ class AVL(BST):
                 node.parent.left = sub_root
             else:
                 node.parent.right = sub_root
-
+            # update node's parent
             node.parent = sub_root
 
+        # update the root when reached the top of the tree
         else:
             node.parent = sub_root
             self._root = sub_root
