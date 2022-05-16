@@ -242,13 +242,83 @@ class TestAVL(unittest.TestCase):
                 raise Exception("PROBLEM WITH REMOVE OPERATION")
         print('remove() stress test finished')
 
-
         case = [8, 15, 11, 12, 3, 16, 9, 5, 13, 2, 17, 10, 14, 18, 1, 19, 4, 6, 7, 20]
         tree = AVL(case)
         tree.remove(8)
         print(tree.is_valid_avl())
         tree.remove(11)
         print(tree.is_valid_avl())
+
+    def test_bst_methods(self):
+        print("\nPDF - method contains() example 1")
+        print("---------------------------------")
+        tree = BST([10, 5, 15])
+        print(tree.contains(15))
+        print(tree.contains(-10))
+        print(tree.contains(15))
+
+        print("\nPDF - method contains() example 2")
+        print("---------------------------------")
+        tree = BST()
+        print(tree.contains(0))
+
+        print("\nPDF - method inorder_traversal() example 1")
+        print("---------------------------------")
+        tree = BST([10, 20, 5, 15, 17, 7, 12])
+        print(tree.inorder_traversal())
+
+        print("\nPDF - method inorder_traversal() example 2")
+        print("---------------------------------")
+        tree = BST([8, 10, -4, 5, -1])
+        print(tree.inorder_traversal())
+
+        print("\nPDF - method find_min() example 1")
+        print("---------------------------------")
+        tree = BST([10, 20, 5, 15, 17, 7, 12])
+        print(tree)
+        print("Minimum value is:", tree.find_min())
+
+        print("\nPDF - method find_min() example 2")
+        print("---------------------------------")
+        tree = BST([8, 10, -4, 5, -1])
+        print(tree)
+        print("Minimum value is:", tree.find_min())
+
+        print("\nPDF - method find_max() example 1")
+        print("---------------------------------")
+        tree = BST([10, 20, 5, 15, 17, 7, 12])
+        print(tree)
+        print("Maximum value is:", tree.find_max())
+
+        print("\nPDF - method find_max() example 2")
+        print("---------------------------------")
+        tree = BST([8, 10, -4, 5, -1])
+        print(tree)
+        print("Maximum value is:", tree.find_max())
+
+        print("\nPDF - method is_empty() example 1")
+        print("---------------------------------")
+        tree = BST([10, 20, 5, 15, 17, 7, 12])
+        print("Tree is empty:", tree.is_empty())
+
+        print("\nPDF - method is_empty() example 2")
+        print("---------------------------------")
+        tree = BST()
+        print("Tree is empty:", tree.is_empty())
+
+        print("\nPDF - method make_empty() example 1")
+        print("---------------------------------")
+        tree = BST([10, 20, 5, 15, 17, 7, 12])
+        print("Tree before make_empty():", tree)
+        tree.make_empty()
+        print("Tree after make_empty(): ", tree)
+
+        print("\nPDF - method make_empty() example 2")
+        print("---------------------------------")
+        tree = BST()
+        print("Tree before make_empty():", tree)
+        tree.make_empty()
+        print("Tree after make_empty(): ", tree)
 
 
 if __name__ == '__main__':

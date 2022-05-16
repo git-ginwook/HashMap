@@ -3,11 +3,13 @@
 # Course: CS261 - Data Structures
 # Assignment: 4 - AVL Implementation
 # Due Date: 5/17/2022
-# Description:
-
+# Description: implement AVL Tree that can perform:
+#   (1) add(): insert a new value to the tree (no duplicates)
+#   (2) remove(): remove a target value from the tree
+#   each operation ensures balance of the tree through rebalancing
 
 import random
-from queue_and_stack import Queue, Stack
+from queue_and_stack import Stack
 from bst import BSTNode, BST
 
 
@@ -209,7 +211,7 @@ class AVL(BST):
             if p_node is None:
                 return True
 
-            # rebalance left or right tree
+            # update parent property of the replaced node
             if node.value < p_node.value:
                 p_node.left.parent = p_node
             else:
@@ -224,7 +226,8 @@ class AVL(BST):
 
     def _remove_two_subtrees(self, parent: AVLNode, node: AVLNode) -> None:
         """
-        TODO: Write your implementation
+        remove 'node' that has two subtrees and rebalance the tree as needed
+
         base case:
         - target is the root
         """
@@ -237,21 +240,25 @@ class AVL(BST):
             par_suc = in_suc
             in_suc = par_suc.left
 
-        # rewiring nodes
+        # rewire the left subtree root of 'node'
         in_suc.left = node.left
         node.left.parent = in_suc
 
+        # traverse upward and update node properties up to 'in_suc'
         if node.right.value != in_suc.value:
+            # rewire the right child of 'in_suc' to the left of 'par_suc'
             par_suc.left = in_suc.right
-
             if in_suc.right is not None:
                 in_suc.right.parent = par_suc
 
+            # move up 'in_suc' to replace 'node'
             in_suc.right = node.right
             node.right.parent = in_suc
 
+            # check 'par_suc' for rebalance
             self._rebalance(par_suc)
 
+            # check each node up to 'in_suc' for rebalance
             while par_suc.value != node.right.value:
                 par_suc = par_suc.parent
                 self._rebalance(par_suc)
