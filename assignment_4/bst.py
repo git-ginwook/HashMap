@@ -183,7 +183,7 @@ class BST:
             if value < nd_curr.value:
                 nd_curr = nd_curr.left
             # traverse right
-            elif value > nd_curr.value:
+            else:
                 nd_curr = nd_curr.right
 
             # target node not found
@@ -250,13 +250,14 @@ class BST:
         # base case
         if parent is None:
             self._root = in_suc
+            in_suc.parent = None
             return
 
-        # when the target node is in the left subtree of the parent
+        # when the target node was in the left subtree of its parent
         if node.value < parent.value:
             parent.left = in_suc
 
-        # when the target node is in the right subtree of the parent
+        # when the target node was in the right subtree of its parent
         else:
             parent.right = in_suc
 
@@ -273,6 +274,7 @@ class BST:
                 self._root = node.left
             else:
                 self._root = node.right
+            self._root.parent = None
             return
 
         # when the target node is in the left subtree of the parent

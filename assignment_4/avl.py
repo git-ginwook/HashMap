@@ -150,22 +150,131 @@ class AVL(BST):
 
     def remove(self, value: object) -> bool:
         """
-        TODO: Write your implementation
-        """
-        pass
+        remove a node with 'value' and rebalance the tree as necessary
 
-    # Experiment and see if you can use the optional                         #
-    # subtree removal methods defined in the BST here in the AVL.            #
-    # Call normally using self -> self._remove_no_subtrees(parent, node)     #
-    # You need to override the _remove_two_subtrees method in any case.      #
-    # Remove these comments.                                                 #
-    # Remove these method stubs if you decide not to use them.               #
+        if the value is removed, return True
+        otherwise, return False
+
+        scenarios:
+        (1) the target node has no subtrees
+        (2) the target node has two subtrees
+        (3) the target node has one subtree
+
+        base case:
+        - empty tree; nothing to remove
+        """
+        # base case
+        if self._root is None:
+            return False
+
+        # initialize a traversing node
+        node = self._root
+
+        # traverse down to tree to find the target value
+        while value != node.value:
+            # traverse left
+            if value < node.value:
+                node = node.left
+            # traverse right
+            else:
+                node = node.right
+
+            # target not found
+            if node is None:
+                return False
+
+        # store the target's parent node
+        p_node = node.parent
+
+        # scenario 1
+        if node.left is None and node.right is None:
+            # remove the target node
+            self._remove_no_sub(p_node, node)
+
+            # the tree becomes empty
+            if self._root is None:
+                return True
+
+        # scenario 2
+        elif node.left is not None and node.right is not None:
+            # remove the target node
+            self._remove_two_subtrees(p_node, node)
+
+        # scenario 3
+        else:
+            # remove the target node
+            self._remove_one_sub(p_node, node)
+
+            # if the node removed was the root
+            if p_node is None:
+                return True
+
+            # rebalance left or right tree
+            if node.value < p_node.value:
+                p_node.left.parent = p_node
+            else:
+                p_node.right.parent = p_node
+
+        # traverse upward to check for rebalance
+        while p_node is not None:
+            self._rebalance(p_node)
+            p_node = p_node.parent
+
+        return True
 
     def _remove_two_subtrees(self, parent: AVLNode, node: AVLNode) -> None:
         """
         TODO: Write your implementation
+        base case:
+        - target is the root
         """
-        pass
+        # initialize variables for inorder successor and its parent node
+        par_suc = node
+        in_suc = par_suc.right
+
+        # pinpoint inorder successor and its parent
+        while in_suc.left is not None:
+            par_suc = in_suc
+            in_suc = par_suc.left
+
+        # rewiring nodes
+        in_suc.left = node.left
+        node.left.parent = in_suc
+
+        if node.right.value != in_suc.value:
+            par_suc.left = in_suc.right
+
+            if in_suc.right is not None:
+                in_suc.right.parent = par_suc
+
+            in_suc.right = node.right
+            node.right.parent = in_suc
+
+            self._rebalance(par_suc)
+
+            while par_suc.value != node.right.value:
+                par_suc = par_suc.parent
+                self._rebalance(par_suc)
+
+        # base case
+        if parent is None:
+            self._root = in_suc
+            in_suc.parent = None
+
+            # check for rebalance of the inorder successor
+            self._rebalance(in_suc)
+            return
+
+        # when the target node was in the left subtree of its parent
+        if in_suc.value < parent.value:
+            parent.left = in_suc
+        # when the target node was in the right subtree of its parent
+        else:
+            parent.right = in_suc
+
+        in_suc.parent = parent
+        # check for rebalance of the inorder successor
+        self._rebalance(in_suc)
 
     def _balance_factor(self, node: AVLNode) -> int:
         """
@@ -210,6 +319,7 @@ class AVL(BST):
 
         # update affected node's properties
         center.left = node
+        center.parent = node.parent
 
         # update heights
         self._update_height(node)
@@ -240,6 +350,7 @@ class AVL(BST):
 
         # update affected node's properties
         center.right = node
+        center.parent = node.parent
 
         # update heights
         self._update_height(node)
@@ -304,22 +415,19 @@ class AVL(BST):
             # single rotation (left)
             sub_root = self._rotate_left(node)
 
-        # update sub_root's parent
-        sub_root.parent = node.parent
-
         # update sub_root's position relative to its parent
         if node.parent is not None:
             if sub_root.value < node.parent.value:
                 node.parent.left = sub_root
             else:
                 node.parent.right = sub_root
-            # update node's parent
-            node.parent = sub_root
 
         # update the root when reached the top of the tree
         else:
-            node.parent = sub_root
             self._root = sub_root
+
+        # update node's parent
+        node.parent = sub_root
 
 
 # ------------------- BASIC TESTING -----------------------------------------

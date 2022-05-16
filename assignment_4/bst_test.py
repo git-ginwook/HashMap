@@ -173,6 +173,83 @@ class TestAVL(unittest.TestCase):
                 raise Exception("PROBLEM WITH ADD OPERATION")
         print('add() stress test finished')
 
+    def test_remove(self):
+        print("\nPDF - method remove() example 1")
+        print("-------------------------------")
+        test_cases = (
+            ((1, 2, 3), 1),  # no AVL rotation
+            ((1, 2, 3), 2),  # no AVL rotation
+            ((1, 2, 3), 3),  # no AVL rotation
+            ((50, 40, 60, 30, 70, 20, 80, 45), 0),
+            ((50, 40, 60, 30, 70, 20, 80, 45), 45),  # no AVL rotation
+            ((50, 40, 60, 30, 70, 20, 80, 45), 40),  # no AVL rotation
+            ((50, 40, 60, 30, 70, 20, 80, 45), 30),  # no AVL rotation
+        )
+        for case, del_value in test_cases:
+            tree = AVL(case)
+            print('INPUT  :', tree, "DEL:", del_value)
+            tree.remove(del_value)
+            print('RESULT :', tree)
+
+        print(tree.is_valid_avl())
+
+
+        print("\nPDF - method remove() example 2")
+        print("-------------------------------")
+        test_cases = (
+            ((50, 40, 60, 30, 70, 20, 80, 45), 20),  # RR
+            ((50, 40, 60, 30, 70, 20, 80, 15), 40),  # LL
+            ((50, 40, 60, 30, 70, 20, 80, 35), 20),  # RL
+            ((50, 40, 60, 30, 70, 20, 80, 25), 40),  # LR
+        )
+        for case, del_value in test_cases:
+            tree = AVL(case)
+            print('INPUT  :', tree, "DEL:", del_value)
+            tree.remove(del_value)
+            print('RESULT :', tree)
+
+        print(tree.is_valid_avl())
+
+        print("\nPDF - method remove() example 3")
+        print("-------------------------------")
+        case = range(-9, 16, 2)
+        tree = AVL(case)
+        for del_value in case:
+            print('INPUT  :', tree, del_value)
+            tree.remove(del_value)
+            print('RESULT :', tree)
+            print(tree.is_valid_avl())
+
+        print("\nPDF - method remove() example 4")
+        print("-------------------------------")
+        case = range(0, 34, 3)
+        tree = AVL(case)
+        for _ in case[:-2]:
+            root_value = tree.get_root().value
+            print('INPUT  :', tree, root_value)
+            tree.remove(root_value)
+            print('RESULT :', tree)
+            print(tree.is_valid_avl())
+
+        print("\nPDF - method remove() example 5")
+        print("-------------------------------")
+        for _ in range(100):
+            case = list(set(random.randrange(1, 20000) for _ in range(900)))
+            tree = AVL(case)
+            for value in case[::2]:
+                tree.remove(value)
+            if not tree.is_valid_avl():
+                raise Exception("PROBLEM WITH REMOVE OPERATION")
+        print('remove() stress test finished')
+
+
+        case = [8, 15, 11, 12, 3, 16, 9, 5, 13, 2, 17, 10, 14, 18, 1, 19, 4, 6, 7, 20]
+        tree = AVL(case)
+        tree.remove(8)
+        print(tree.is_valid_avl())
+        tree.remove(11)
+        print(tree.is_valid_avl())
+
 
 if __name__ == '__main__':
     unittest.main()
