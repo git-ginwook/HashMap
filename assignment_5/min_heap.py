@@ -47,7 +47,7 @@ class MinHeap:
         - empty heap; add the first node
         """
         # base case
-        if self._heap.is_empty():
+        if self.is_empty():
             self._heap.append(node)
             return
 
@@ -60,9 +60,10 @@ class MinHeap:
 
         # compare values of the current and its parent
         while self._heap.get_at_index(cn) < self._heap.get_at_index(pn):
-            # swap parent and current node
+            # swap parent and current nodes
+            temp_val = self._heap.get_at_index(cn)
             self._heap.set_at_index(cn, self._heap.get_at_index(pn))
-            self._heap.set_at_index(pn, self._heap.get_at_index(cn))
+            self._heap.set_at_index(pn, temp_val)
 
             # exit when reached the beginning
             if pn == 0:
@@ -76,9 +77,10 @@ class MinHeap:
 
     def is_empty(self) -> bool:
         """
-        TODO: Write this implementation
+        return True if the heap is empty
+        return False otherwise
         """
-        pass
+        return self._heap.is_empty()
 
     def get_min(self) -> object:
         """
