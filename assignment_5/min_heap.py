@@ -84,9 +84,17 @@ class MinHeap:
 
     def get_min(self) -> object:
         """
-        TODO: Write this implementation
+        return the minimum object
+
+        exception case:
+        - empty heap
         """
-        pass
+        # exception case
+        if self.is_empty():
+            raise MinHeapException
+
+        # return the min
+        return self._heap.get_at_index(0)
 
     def remove_min(self) -> object:
         """

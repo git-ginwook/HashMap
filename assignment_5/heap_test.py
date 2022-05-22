@@ -11,7 +11,7 @@ class TestMinHeap(unittest.TestCase):
         print(h, h.is_empty())
         for value in range(300, 200, -15):
             h.add(value)
-            print(h)
+            print(h, h.get_min())
 
         print("\nPDF - add example 2")
         print("-------------------")
@@ -31,6 +31,21 @@ class TestMinHeap(unittest.TestCase):
         print("-------------------")
         h = MinHeap()
         print(h.is_empty())
+
+    def test_get_min(self):
+        print("\nPDF - get_min example 1")
+        print("-----------------------")
+        h = MinHeap(['fish', 'bird'])
+        print(h)
+        print(h.get_min(), h.get_min())
+
+    def test_remove_min(self):
+        print("\nPDF - remove_min example 1")
+        print("--------------------------")
+        h = MinHeap([1, 10, 2, 9, 3, 8, 4, 7, 5, 6])
+        while not h.is_empty() and h.is_empty() is not None:
+            print(h, end=' ')
+            print(h.remove_min())
 
 
 if __name__ == '__main__':
