@@ -41,9 +41,38 @@ class MinHeap:
 
     def add(self, node: object) -> None:
         """
-        TODO: Write this implementation
+        add 'node' adhering to the min heap property
+
+        base case:
+        - empty heap; add the first node
         """
-        pass
+        # base case
+        if self._heap.is_empty():
+            self._heap.append(node)
+            return
+
+        # append a new node to the last open spot
+        self._heap.append(node)
+
+        # indices of the current node and its parent
+        cn = self._heap.length() - 1
+        pn = (cn - 1) // 2
+
+        # compare values of the current and its parent
+        while self._heap.get_at_index(cn) < self._heap.get_at_index(pn):
+            # swap parent and current node
+            self._heap.set_at_index(cn, self._heap.get_at_index(pn))
+            self._heap.set_at_index(pn, self._heap.get_at_index(cn))
+
+            # exit when reached the beginning
+            if pn == 0:
+                return
+
+            # traverse up the heap
+            cn = pn
+            pn = (cn - 1) // 2
+
+        return
 
     def is_empty(self) -> bool:
         """
