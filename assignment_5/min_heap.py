@@ -138,9 +138,27 @@ class MinHeap:
 
     def build_heap(self, da: DynamicArray) -> None:
         """
-        TODO: Write this implementation
+        overwrite the heap with 'da' and reorder to maintain the heap property
         """
-        pass
+        # create a new dynamic array
+        new_da = DynamicArray()
+
+        # copy values in da to new_da
+        for pos in range(da.length()):
+            new_da.append(da.get_at_index(pos))
+
+        # overwrite the current heap
+        self._heap = new_da
+
+        # find index of the first non-leaf
+        non_leaf = self._heap.length() // 2 - 1
+
+        # percolation loop
+        while non_leaf > -1:
+            # percolate down
+            _percolate_down(self._heap, non_leaf)
+            # decrement non_leaf
+            non_leaf -= 1
 
     def size(self) -> int:
         """
