@@ -66,6 +66,39 @@ class TestMinHeap(unittest.TestCase):
         if h.get_min() == 500:
             print("Error: input array and heap's underlying DA reference same object in memory")
 
+    def test_size_clear(self):
+        print("\nPDF - size example 1")
+        print("--------------------")
+        h = MinHeap([100, 20, 6, 200, 90, 150, 300])
+        print(h.size())
+
+        print("\nPDF - size example 2")
+        print("--------------------")
+        h = MinHeap([])
+        print(h.size())
+
+        print("\nPDF - clear example 1")
+        print("---------------------")
+        h = MinHeap(['monkey', 'zebra', 'elephant', 'horse', 'bear'])
+        print(h)
+        print(h.clear())
+        print(h)
+
+    def test_heapsort(self):
+        print("\nPDF - heapsort example 1")
+        print("------------------------")
+        da = DynamicArray([100, 20, 6, 200, 90, 150, 300])
+        print(f"Before: {da}")
+        heapsort(da)
+        print(f"After:  {da}")
+
+        print("\nPDF - heapsort example 2")
+        print("------------------------")
+        da = DynamicArray(['monkey', 'zebra', 'elephant', 'horse', 'bear'])
+        print(f"Before: {da}")
+        heapsort(da)
+        print(f"After:  {da}")
+
 
 if __name__ == '__main__':
     unittest.main()

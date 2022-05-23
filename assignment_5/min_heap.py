@@ -132,7 +132,7 @@ class MinHeap:
         self._heap.remove_at_index(i_last)
 
         # percolate down from the beginning
-        _percolate_down(self._heap, 0)
+        _percolate_down(self._heap, 0, self._heap.length())
 
         return min_val
 
@@ -151,40 +151,73 @@ class MinHeap:
         self._heap = new_da
 
         # find index of the first non-leaf
-        non_leaf = self._heap.length() // 2 - 1
+        non_leaf = da.length() // 2 - 1
 
         # percolation loop
         while non_leaf > -1:
             # percolate down
-            _percolate_down(self._heap, non_leaf)
+            _percolate_down(self._heap, non_leaf, da.length())
             # decrement non_leaf
             non_leaf -= 1
 
     def size(self) -> int:
         """
-        TODO: Write this implementation
+        return number of items in the heap that maintains the heap property
+
         """
-        pass
+        return self._heap.length()
 
     def clear(self) -> None:
         """
-        TODO: Write this implementation
+        clear the heap
         """
-        pass
+        self._heap = DynamicArray()
 
 
 def heapsort(da: DynamicArray) -> None:
     """
     TODO: Write this implementation
+    base case:
+    - only one element; no further sort needed
     """
-    pass
+    # base case
+    if da.length() == 1:
+        return
+
+    # build a heap out of 'da'
+    hs = MinHeap()
+    hs.build_heap(da)
+
+    #
+    for pos in range(da.length()):
+        val = hs.remove_min()
+        da.set_at_index(pos, val)
+
+    # create a counter variable
+    k = da.length() - 1
+
+    #
+    while k > 0:
+        # get the min and the kth values
+        m_val = da.get_at_index(0)
+        k_val = da.get_at_index(k)
+
+        # swap the min and the kth
+        da.set_at_index(0, k_val)
+        da.set_at_index(k, m_val)
+
+        # percolate down
+        _percolate_down(da, 0, k)
+
+        # decrement k
+        k -= 1
 
 
 # It's highly recommended that you implement the following optional          #
 # helper function for percolating elements down the MinHeap. You can call    #
 # this from inside the MinHeap class. You may edit the function definition.  #
 
-def _percolate_down(da: DynamicArray, parent: int, path=0) -> None:
+def _percolate_down(da: DynamicArray, parent: int, count: int) -> None:
     """
     move the element down the heap until:
     either no children is smaller than it or it reached the bottom
@@ -201,15 +234,15 @@ def _percolate_down(da: DynamicArray, parent: int, path=0) -> None:
         (3-3) the only child is greater than parent -> stop percolation
     """
     # percolate down while parent is within the heap boundary
-    while parent < da.length():
+    while parent < count:
         # update indices of left and right children
         left = 2 * parent + 1
         right = 2 * parent + 2
 
         # fetch values
         parent_val = da.get_at_index(parent)
-        left_val = da.get_at_index(left) if left < da.length() else None
-        right_val = da.get_at_index(right) if right < da.length() else None
+        left_val = da.get_at_index(left) if left < count else None
+        right_val = da.get_at_index(right) if right < count else None
 
         # scenario(1): no child
         if left_val is None and right_val is None:
