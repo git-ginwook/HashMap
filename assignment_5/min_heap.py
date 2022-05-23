@@ -3,7 +3,18 @@
 # Course: CS261 - Data Structures
 # Assignment: 5 - MinHeap Implementation
 # Due Date: 5/23/2022
-# Description:
+# Description: implement Min Heap that can perform:
+#   1) add(): add a new object to the heap
+#   2) is_empty(): check whether the heap is empty
+#   3) get_min(): return the object at the root
+#   4) remove_min(): return and remove the object at the root
+#   5) build_heap(): overwrite a heap based on a new Dynamic Array
+#   6) size(): count the number of items in the heap
+#   7) clear(): empty the heap
+#
+#   standalone function and a helper method outside the MinHeap class
+#   heapsort(): sort a Dynamic Array in non-ascending order using the Heapsort
+#   _percolate_down(): move down until no children is greater than the element
 
 
 from dynamic_array import *
@@ -176,7 +187,8 @@ class MinHeap:
 
 def heapsort(da: DynamicArray) -> None:
     """
-    TODO: Write this implementation
+    sort 'da' in non-ascending order
+
     base case:
     - only one element; no further sort needed
     """
@@ -188,7 +200,7 @@ def heapsort(da: DynamicArray) -> None:
     hs = MinHeap()
     hs.build_heap(da)
 
-    #
+    # reorder 'da'
     for pos in range(da.length()):
         val = hs.remove_min()
         da.set_at_index(pos, val)
@@ -196,13 +208,13 @@ def heapsort(da: DynamicArray) -> None:
     # create a counter variable
     k = da.length() - 1
 
-    #
+    # percolating till k reaches the front of the array
     while k > 0:
-        # get the min and the kth values
+        # get the min and the 'k'th values
         m_val = da.get_at_index(0)
         k_val = da.get_at_index(k)
 
-        # swap the min and the kth
+        # swap the min and the 'k'th
         da.set_at_index(0, k_val)
         da.set_at_index(k, m_val)
 

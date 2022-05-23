@@ -87,7 +87,7 @@ class TestMinHeap(unittest.TestCase):
     def test_heapsort(self):
         print("\nPDF - heapsort example 1")
         print("------------------------")
-        da = DynamicArray([100, 20, 6, 200, 90, 150, 300])
+        da = DynamicArray([100, 100, 20, 6, 100, 200, 90, 150, 300, 300])
         print(f"Before: {da}")
         heapsort(da)
         print(f"After:  {da}")
