@@ -98,7 +98,10 @@ class MinHeap:
 
     def remove_min(self) -> object:
         """
-        TODO: Write this implementation
+        remove an object with the minimum key
+
+        return the object
+
         exception case:
         - empty heap; nothing to remove
 
@@ -163,9 +166,11 @@ def heapsort(da: DynamicArray) -> None:
 # helper function for percolating elements down the MinHeap. You can call    #
 # this from inside the MinHeap class. You may edit the function definition.  #
 
-def _percolate_down(da: DynamicArray, parent: int) -> None:
+def _percolate_down(da: DynamicArray, parent: int, path=0) -> None:
     """
-    TODO: Write your implementation
+    move the element down the heap until:
+    either no children is smaller than it or it reached the bottom
+
     scenarios:
     (1) no child: nothing to percolate -> stop percolation
     (2) two children:
@@ -173,7 +178,9 @@ def _percolate_down(da: DynamicArray, parent: int) -> None:
         (2-2) both children are greater than parent -> stop percolation
 
     (3) only child:
-
+        (3-1) left child is greater than parent
+        (3-2) right child is greater than parent
+        (3-3) the only child is greater than parent -> stop percolation
     """
     # percolate down while parent is within the heap boundary
     while parent < da.length():
@@ -192,55 +199,41 @@ def _percolate_down(da: DynamicArray, parent: int) -> None:
 
         # scenario(2): two children
         elif left_val is not None and right_val is not None:
-
-            # scenario(2-1): parent is greater than at least one
+            # scenario(2-1)
             if parent_val > left_val or parent_val > right_val:
+                # update path by comparing left and right
+                path = -1 if left_val <= right_val else 1
 
-                # left is smaller than or equal to right
-                if left_val <= right_val:
-                    # swap with left
-                    da.set_at_index(parent, left_val)
-                    da.set_at_index(left, parent_val)
-                    # update parent index
-                    parent = left
-
-                # right is smaller than left
-                else:
-                    # swap with right
-                    da.set_at_index(parent, right_val)
-                    da.set_at_index(right, parent_val)
-                    # update parent index
-                    parent = right
-
-            # scenario(2-2): both children are greater than parent
+            # scenario(2-2)
             else:
                 return
 
         # scenario(3): only child
         else:
-            # left child
-            if left_val is not None:
-                if parent_val > left_val:
-                    # swap with left
-                    da.set_at_index(parent, left_val)
-                    da.set_at_index(left, parent_val)
-                    # update parent index
-                    parent = left
-
-                else:
-                    return
-
-            # right child
+            # scenario(3-1)
+            if left_val is not None and parent_val > left_val:
+                path = -1
+            # scenario(3-2)
+            elif right_val is not None and parent_val > right_val:
+                path = 1
+            # scenario(3-3)
             else:
-                if parent_val > right_val:
-                    # swap with right
-                    da.set_at_index(parent, right_val)
-                    da.set_at_index(right, parent_val)
-                    # update parent index
-                    parent = right
+                return
 
-                else:
-                    return
+        # percolate down based on path value
+        if path < 0:
+            # swap with left
+            da.set_at_index(parent, left_val)
+            da.set_at_index(left, parent_val)
+            # update parent index
+            parent = left
+
+        else:
+            # swap with right
+            da.set_at_index(parent, right_val)
+            da.set_at_index(right, parent_val)
+            # update parent index
+            parent = right
 
     return
 
