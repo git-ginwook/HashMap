@@ -109,16 +109,14 @@ class MinHeap:
         if self.is_empty():
             raise MinHeapException
 
-        # base case
-        if self._heap.length() == 1:
-            # store and remove the only value
-            min_val = self.get_min()
-            self._heap.remove_at_index(0)
-
-            return min_val
-
         # store the minimum value to return
         min_val = self.get_min()
+
+        # base case
+        if self._heap.length() == 1:
+            # remove the only value
+            self._heap.remove_at_index(0)
+            return min_val
 
         # index of the last element
         i_last = self._heap.length() - 1
@@ -130,48 +128,8 @@ class MinHeap:
         # remove the last element
         self._heap.remove_at_index(i_last)
 
-        # initialize variables for left and right children
-        cn = 0                                  # current node
-        cn_l = 2 * 0 + 1                        # left children
-        cn_r = 2 * 0 + 2                        # right children
-
-        cn_val = self._heap.get_at_index(cn)
-        cn_l_val = self._heap.get_at_index(cn_l)
-        cn_r_val = self._heap.get_at_index(cn_r)
-
-        # while the replaced node is within the heap boundary
-        while cn < self._heap.length():
-            # both none
-            if cn_l_val is None and cn_r_val is None:
-                return min_val
-
-            # both children
-            if cn_l_val is not None and cn_r_val is not None:
-                # if left and right are equal
-                if cn_l_val == cn_r_val:
-                    if cn_val > cn_l_val:
-                        # swap with left
-
-                if cn_val > min(cn_l_val, cn_r_val):
-                    # left is smaller, swap with left
-                    if cn_l_val < cn_r_val:
-
-                    # right is smaller, swap with right
-                    else:
-
-
-            # one of children
-            else:
-                if cn_l_val is not None:
-                    if cn_val > cn_l_val:
-                        # swap
-                else:
-                    if cn_val > cn_r_val:
-                        # swap
-
-
-
-
+        # percolate down from the beginning
+        _percolate_down(self._heap, 0)
 
         return min_val
 
@@ -208,9 +166,83 @@ def heapsort(da: DynamicArray) -> None:
 def _percolate_down(da: DynamicArray, parent: int) -> None:
     """
     TODO: Write your implementation
-    """
-    pass
+    scenarios:
+    (1) no child: nothing to percolate -> stop percolation
+    (2) two children:
+        (2-1) parent is greater than at least one of its children
+        (2-2) both children are greater than parent -> stop percolation
 
+    (3) only child:
+
+    """
+    # percolate down while parent is within the heap boundary
+    while parent < da.length():
+        # update indices of left and right children
+        left = 2 * parent + 1
+        right = 2 * parent + 2
+
+        # fetch values
+        parent_val = da.get_at_index(parent)
+        left_val = da.get_at_index(left) if left < da.length() else None
+        right_val = da.get_at_index(right) if right < da.length() else None
+
+        # scenario(1): no child
+        if left_val is None and right_val is None:
+            return
+
+        # scenario(2): two children
+        elif left_val is not None and right_val is not None:
+
+            # scenario(2-1): parent is greater than at least one
+            if parent_val > left_val or parent_val > right_val:
+
+                # left is smaller than or equal to right
+                if left_val <= right_val:
+                    # swap with left
+                    da.set_at_index(parent, left_val)
+                    da.set_at_index(left, parent_val)
+                    # update parent index
+                    parent = left
+
+                # right is smaller than left
+                else:
+                    # swap with right
+                    da.set_at_index(parent, right_val)
+                    da.set_at_index(right, parent_val)
+                    # update parent index
+                    parent = right
+
+            # scenario(2-2): both children are greater than parent
+            else:
+                return
+
+        # scenario(3): only child
+        else:
+            # left child
+            if left_val is not None:
+                if parent_val > left_val:
+                    # swap with left
+                    da.set_at_index(parent, left_val)
+                    da.set_at_index(left, parent_val)
+                    # update parent index
+                    parent = left
+
+                else:
+                    return
+
+            # right child
+            else:
+                if parent_val > right_val:
+                    # swap with right
+                    da.set_at_index(parent, right_val)
+                    da.set_at_index(right, parent_val)
+                    # update parent index
+                    parent = right
+
+                else:
+                    return
+
+    return
 
 # ------------------- BASIC TESTING -----------------------------------------
 
