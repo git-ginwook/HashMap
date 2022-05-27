@@ -113,8 +113,13 @@ class HashMap:
         """
         clears the hash map table without changing its capacity
         """
-        # reset Dynamic Array and the size
+        # reset Dynamic Array
         self._buckets = DynamicArray()
+        # append an empty LinkedList class for each bucket
+        for _ in range(self._capacity):
+            self._buckets.append(LinkedList())
+
+        # reset the size
         self._size = 0
 
     def resize_table(self, new_capacity: int) -> None:
