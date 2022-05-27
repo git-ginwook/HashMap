@@ -54,27 +54,68 @@ class HashMap:
 
     def put(self, key: str, value: object) -> None:
         """
-        TODO: Write this implementation
+        update the hash map using 'key' and 'value'
+
+        if 'key' already exists, update it with new 'value'
+        if not, add a new 'key'/'value' pair
+
+        base case:
+        - empty hash map; insert
         """
-        pass
+        # get the hash index
+        hash = self._hash_function(key) % self._capacity
+
+        # find the right bucket
+        buck = self._buckets.get_at_index(hash)
+
+        # base case
+        if self._size == 0:
+            # insert and update the size
+            buck.insert(key, value)
+            self._size += 1
+
+        # check if the key already exists
+        node = buck.contains(key)
+        # if yes, update the node
+        if node:
+            node.value = value
+        # if no, insert and update the size
+        else:
+            buck.insert(key, value)
+            self._size += 1
 
     def empty_buckets(self) -> int:
         """
-        TODO: Write this implementation
+        count the number of empty buckets
+
+        return the count
         """
-        pass
+        # initiate a count variable
+        count = 0
+
+        # iterate through each bucket to check whether it's empty
+        for buck in range(self._capacity):
+            if self._buckets.get_at_index(buck).length() == 0:
+                count += 1
+
+        return count
 
     def table_load(self) -> float:
         """
-        TODO: Write this implementation
+        return the hash load factor
+
+        self._size == # of key/value pairs
+        self._capacity == # of buckets
         """
-        pass
+        return self._size / self._capacity
 
     def clear(self) -> None:
         """
-        TODO: Write this implementation
+        clears the hash map table without changing its capacity
         """
-        pass
+        # reset Dynamic Array and the size
+        self._buckets = DynamicArray()
+        self._size = 0
 
     def resize_table(self, new_capacity: int) -> None:
         """
