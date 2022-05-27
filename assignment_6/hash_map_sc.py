@@ -1,9 +1,10 @@
-# Name:
-# OSU Email:
+# Name: GinWook Lee
+# OSU Email: leeginw@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
-# Description:
+# Assignment: 6 - Hash Map Implementation - Chaining
+# Due Date: 6/3/2022
+# Description: implement Hash Map that uses chaining:
+#
 
 
 from a6_include import (DynamicArray, LinkedList,
