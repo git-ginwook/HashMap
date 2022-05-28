@@ -124,22 +124,37 @@ class HashMap:
 
     def resize_table(self, new_capacity: int) -> None:
         """
-        TODO: Write this implementation
+        change the capacity while rehashing all the existing key/value pairs
+
         base case:
-        - new_capacity is less than 1; do nothing
+        - new_capacity is less than 1
         - new_capacity equals to the current capacity
         """
         # base case
         if new_capacity < 1 or new_capacity == self._capacity:
             return
 
-        # change to the new capacity
+        # copy the current bucket
+        cur_buck = self._buckets
+        # create a new empty bucket
+        new_buck = DynamicArray()
+        # switch to the new bucket
+        self._buckets = new_buck
+        for _ in range(new_capacity):
+            self._buckets.append(LinkedList())
+
+        # store the current capacity and update to the new capacity
+        cur_capacity = self._capacity
         self._capacity = new_capacity
 
-        # iterate through the current dynamic array
-        # (pause until get_keys() and get() methods work)
-        for buck in range(self._capacity):
-            self._buckets.get_at_index(buck)
+        # reset the size
+        self._size = 0
+
+        # iterate through the current bucket
+        for _ in range(cur_capacity):
+            link = cur_buck.pop()
+            for node in link:
+                self.put(node.key, node.value)
 
     def get(self, key: str) -> object:
         """
@@ -151,7 +166,11 @@ class HashMap:
         buck = self._buckets.get_at_index(hash)
 
         # return the value if 'key' exists
-        return buck.contains(key)
+        res = buck.contains(key)
+        if res:
+            return res.value
+
+        return None
 
     def contains_key(self, key: str) -> bool:
         """
@@ -170,9 +189,18 @@ class HashMap:
 
     def remove(self, key: str) -> None:
         """
-        TODO: Write this implementation
+        remove the first node associated with 'key'
         """
-        pass
+        # find the right bucket
+        hash = self._hash_function(key) % self._capacity
+        buck = self._buckets.get_at_index(hash)
+
+        # remove the value if 'key' exists
+        res = buck.remove(key)
+
+        if res is True:
+            # update size
+            self._size -= 1
 
     def get_keys(self) -> DynamicArray:
         """
@@ -193,7 +221,7 @@ class HashMap:
         # loop through each bucket at a time
         for buck in range(self._capacity):
             # start with the linked list at the end
-            link = self._buckets.pop()
+            link = self._buckets.get_at_index(buck)
             # iterate through the current linked list, if any
             for node in link:
                 # append each key to the new DA
