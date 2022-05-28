@@ -136,6 +136,24 @@ class TestHashMap(unittest.TestCase):
         #     print(i, m.get(str(i)), m.get(str(i)) == i * 10)
         #     print(i + 1, m.get(str(i + 1)), m.get(str(i + 1)) == (i + 1) * 10)
 
+    def test_get_keys(self):
+        print("\nPDF - get_keys example 1")
+        print("------------------------")
+        m = HashMap(10, hash_function_2)
+        for i in range(100, 200, 10):
+            m.put(str(i), str(i * 10))
+
+        keys = m.get_keys()
+        print(keys, keys.length(), m.get_size())
+
+        # m.resize_table(1)
+        # print(m.get_keys())
+        #
+        # m.put('200', '2000')
+        # m.remove('100')
+        # m.resize_table(2)
+        # print(m.get_keys())
+
 
 if __name__ == '__main__':
     unittest.main()

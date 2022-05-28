@@ -138,9 +138,8 @@ class HashMap:
 
         # iterate through the current dynamic array
         # (pause until get_keys() and get() methods work)
-        for pos in range(self._buckets.length()):
-            self._buckets.get_at_index(pos)
-
+        for buck in range(self._capacity):
+            self._buckets.get_at_index(buck)
 
     def get(self, key: str) -> object:
         """
@@ -177,9 +176,30 @@ class HashMap:
 
     def get_keys(self) -> DynamicArray:
         """
-        TODO: Write this implementation
+        get all the keys stored in the hash map
+
+        return the result as a Dynamic Array
+
+        base case:
+        - empty hash map; return an empty dynamic array
         """
-        pass
+        # create a new DA
+        new_da = DynamicArray()
+
+        # base case
+        if self._size == 0:
+            return new_da
+
+        # loop through each bucket at a time
+        for buck in range(self._capacity):
+            # start with the linked list at the end
+            link = self._buckets.pop()
+            # iterate through the current linked list, if any
+            for node in link:
+                # append each key to the new DA
+                new_da.append(node.key)
+
+        return new_da
 
 
 def find_mode(da: DynamicArray) -> (DynamicArray, int):
