@@ -125,20 +125,49 @@ class HashMap:
     def resize_table(self, new_capacity: int) -> None:
         """
         TODO: Write this implementation
+        base case:
+        - new_capacity is less than 1; do nothing
+        - new_capacity equals to the current capacity
         """
-        pass
+        # base case
+        if new_capacity < 1 or new_capacity == self._capacity:
+            return
+
+        # change to the new capacity
+        self._capacity = new_capacity
+
+        # iterate through the current dynamic array
+        # (pause until get_keys() and get() methods work)
+        for pos in range(self._buckets.length()):
+            self._buckets.get_at_index(pos)
+
 
     def get(self, key: str) -> object:
         """
-        TODO: Write this implementation
+        return the value associated with 'key' if 'key' exists
+        Otherwise, return None
         """
-        pass
+        # find the right bucket
+        hash = self._hash_function(key) % self._capacity
+        buck = self._buckets.get_at_index(hash)
+
+        # return the value if 'key' exists
+        return buck.contains(key)
 
     def contains_key(self, key: str) -> bool:
         """
-        TODO: Write this implementation
+        return True if 'key' exists
+        Otherwise, return False
         """
-        pass
+        # find the right bucket
+        hash = self._hash_function(key) % self._capacity
+        buck = self._buckets.get_at_index(hash)
+
+        # check if the key exists
+        if buck.contains(key):
+            return True
+
+        return False
 
     def remove(self, key: str) -> None:
         """
