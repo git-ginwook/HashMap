@@ -262,10 +262,7 @@ def find_mode(da: DynamicArray) -> (DynamicArray, int):
             mod.append(key)                     # append the key
         # if the value is greater than the frequency
         elif val > frq:
-            # pop all the previous keys in 'mod'
-            for _ in range(mod.length()):
-                mod.pop()
-
+            mod = DynamicArray()                # reset the array
             mod.append(key)                     # append the key
             frq = val                           # update the frequency
 
