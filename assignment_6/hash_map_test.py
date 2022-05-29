@@ -196,6 +196,27 @@ class TestHashMap(unittest.TestCase):
                 result &= not m.contains_key(str(key + 1))
             print(capacity, result, m.get_size(), m.get_capacity(), round(m.table_load(), 2))
 
+    def test_find_mode(self):
+        print("\nPDF - find_mode example 1")
+        print("-----------------------------")
+        da = DynamicArray(["apple", "apple", "grape", "melon", "melon", "peach"])
+        map = HashMap(da.length() // 3, hash_function_1)
+        mode, frequency = find_mode(da)
+        print(f"Input: {da}\nMode: {mode}, Frequency: {frequency}")
+
+        print("\nPDF - find_mode example 2")
+        print("-----------------------------")
+        test_cases = (
+            ["Arch", "Manjaro", "Manjaro", "Mint", "Mint", "Mint", "Ubuntu", "Ubuntu", "Ubuntu", "Ubuntu"],
+            ["one", "two", "three", "four", "five"],
+            ["2", "4", "2", "6", "8", "4", "1", "3", "4", "5", "7", "3", "3", "2"]
+        )
+
+        for case in test_cases:
+            da = DynamicArray(case)
+            map = HashMap(da.length() // 3, hash_function_2)
+            mode, frequency = find_mode(da)
+            print(f"Input: {da}\nMode: {mode}, Frequency: {frequency}\n")
 
 if __name__ == '__main__':
     unittest.main()
