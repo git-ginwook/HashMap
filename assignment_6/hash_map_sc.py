@@ -4,8 +4,18 @@
 # Assignment: 6 - Hash Map Implementation - Chaining
 # Due Date: 6/3/2022
 # Description: implement Hash Map that uses chaining:
+#   1) put(): add or replace a key / value pair
+#   2) get(): fetch a value associated with the given key
+#   3) remove(): remove a key / value pair based on the given key
+#   4) contains_key(): check whether the given key already exists
+#   5) clear(): remove all the contents while maintaining the capacity
+#   6) empty_buckets(): count the number of empty buckets
+#   7) resize_table(): update the capacity and rehash all contents accordingly
+#   8) table_load(): calculate the current load factor
+#   9) get_keys(): list all the keys in a form of a dynamic array
 #
-
+#   standalone function outside the HashMap class
+#   find_mode(): find the most occurring value(s) and its frequency
 
 from a6_include import (DynamicArray, LinkedList,
                         hash_function_1, hash_function_2)
