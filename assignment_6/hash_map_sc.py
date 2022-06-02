@@ -238,7 +238,7 @@ class HashMap:
 
         # loop through each bucket at a time
         for buck in range(self._capacity):
-            # start with the linked list at the end
+            # start from the linked list
             link = self._buckets.get_at_index(buck)
             # iterate through the current linked list, if any
             for node in link:

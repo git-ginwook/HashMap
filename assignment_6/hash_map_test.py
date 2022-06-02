@@ -1,5 +1,6 @@
 import unittest
-from hash_map_sc import *
+# from hash_map_sc import *
+from hash_map_oa import *
 
 
 class TestHashMap(unittest.TestCase):
@@ -218,8 +219,22 @@ class TestHashMap(unittest.TestCase):
             mode, frequency = find_mode(da)
             print(f"Input: {da}\nMode: {mode}, Frequency: {frequency}\n")
 
-    def test_oa(self):
-        pass
+    def test_oa_put(self):
+        print("\nPDF - put example 1")
+        print("-------------------")
+        m = HashMap(50, hash_function_1)
+        for i in range(150):
+            m.put('str' + str(i), i * 100)
+            if i % 25 == 24:
+                print(m.empty_buckets(), m.table_load(), m.get_size(), m.get_capacity())
+
+        print("\nPDF - put example 2")
+        print("-------------------")
+        m = HashMap(40, hash_function_2)
+        for i in range(50):
+            m.put('str' + str(i // 3), i * 100)
+            if i % 10 == 9:
+                print(m.empty_buckets(), m.table_load(), m.get_size(), m.get_capacity())
 
 
 if __name__ == '__main__':

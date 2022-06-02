@@ -73,22 +73,41 @@ class HashMap:
         # check the current load factor
         # resize if greater than or equal to 0.5
         if self.table_load() >= 0.5:
-            # resize
+            self.resize_table(self._capacity * 2)
 
-            # rehash
-            pass
+        # create a starting bucket and a probe variable
+        bucket = self._buckets.get_at_index(hash)
+        probe = 1
 
-        # if already exists, update
-        if self.get(key):
-            # swap value
-            pass
+        # check whether the key exists
+        exist = self.contains_key(key)
 
-        # if not, insert
-        else:
-            # set_at_index()
-            pass
+        # traverse the hash map using quadratic probing
+        while bucket is not None:
+            # if the key exists
+            if exist:
+                if bucket.key == key:
+                    # update the value
+                    bucket.value = value
+                    return
 
+            # if the key doesn't exist
+            else:
+                if bucket.is_tombstone is True:
+                    # insert the key/value pair
+                    bucket.set_at_index(hash, pair)
+                    self._size += 1
+                    return
 
+            # update quadratic probing
+            hash = (hash + (probe ** 2)) % self._capacity
+            bucket = self._buckets.get_at_index(hash)
+            # increment the probe variable
+            probe += 1
+
+        # insert the key/value pair
+        self._buckets.set_at_index(hash, pair)
+        self._size += 1
 
     def table_load(self) -> float:
         """
@@ -101,16 +120,50 @@ class HashMap:
 
     def empty_buckets(self) -> int:
         """
-        TODO: Write this implementation
+        count the number of empty buckets
+
+        return the count
         """
-        pass
+        return self._capacity - self._size
 
     def resize_table(self, new_capacity: int) -> None:
         """
         TODO: Write this implementation
+        base case:
+        - new_capacity is less than 1
+        - new_capacity is less than the number of elements in the map
         """
         # remember to rehash non-deleted entries into new table
-        pass
+
+        # base case
+        if new_capacity < 1 or new_capacity < self._size:
+            return
+
+        # create a new map
+        new_map = DynamicArray()
+        for _ in range(new_capacity):
+            new_map.append(None)
+
+        #
+        for pos in range(self._capacity):
+            curr = self._buckets.get_at_index(pos)
+            if curr is not None and curr.is_tombstone is False:
+                # rehash
+                hash = self._hash_function(curr.key) % new_capacity
+                dest = new_map.get_at_index(hash)
+                prob = 1
+                #
+                while dest is not None:
+                    hash = (hash + prob ** 2) % new_capacity
+                    dest = new_map.get_at_index(hash)
+                    prob += 1
+                #
+                pair = HashEntry(curr.key, curr.value)
+                new_map.set_at_index(hash, pair)
+
+        # update the hash table and its capacity
+        self._buckets = new_map
+        self._capacity = new_capacity
 
     def get(self, key: str) -> object:
         """
@@ -153,7 +206,7 @@ class HashMap:
         return True if 'key' exists
         Otherwise, return False
         """
-        if self.get(key):
+        if self.get(key) is not None:
             return True
 
         return False
@@ -179,9 +232,28 @@ class HashMap:
 
     def get_keys(self) -> DynamicArray:
         """
-        TODO: Write this implementation
+        get all the keys stored in the hash map
+
+        return the result as a Dynamic Array
+
+        base case:
+        - empty hash map; return an empty dynamic array
         """
-        pass
+        # create a new Dynamic Array
+        new_da = DynamicArray()
+
+        # base case
+        if self._size == 0:
+            return new_da
+
+        # loop through each bucket at a time
+        for buck in range(self._capacity):
+            curr = self._buckets.get_at_index(buck)
+            # append a key to the new DA if curr is not empty
+            if curr is not None and curr.is_tombstone is False:
+                new_da.append(curr.key)
+
+        return new_da
 
 
 # ------------------- BASIC TESTING ---------------------------------------- #
