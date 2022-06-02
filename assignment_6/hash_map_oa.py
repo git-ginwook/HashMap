@@ -57,13 +57,47 @@ class HashMap:
         """
         # remember, if the load factor is greater than or equal to 0.5,
         # resize the table before putting the new key/value pair
-        pass
+
+        # create a key/value pair class
+        pair = HashEntry(key, value)
+
+        # get the hash index
+        hash = self._hash_function(key) % self._capacity
+
+        # base case
+        if self._size == 0:
+            self._buckets.set_at_index(hash, pair)
+            self._size += 1
+            return
+
+        # check the current load factor
+        # resize if greater than or equal to 0.5
+        if self.table_load() >= 0.5:
+            # resize
+
+            # rehash
+            pass
+
+        # if already exists, update
+        if self.get(key):
+            # swap value
+            pass
+
+        # if not, insert
+        else:
+            # set_at_index()
+            pass
+
+
 
     def table_load(self) -> float:
         """
-        TODO: Write this implementation
+        return the hash load factor
+
+        self._size == # of key/value pairs
+        self._capacity == # of buckets
         """
-        pass
+        return self._size / self._capacity
 
     def empty_buckets(self) -> int:
         """
@@ -80,15 +114,49 @@ class HashMap:
 
     def get(self, key: str) -> object:
         """
-        TODO: Write this implementation
+        return the value associated with 'key' if 'key' exists
+        Otherwise, return None
+
+        base case:
+        - empty hash map; nothing to get
         """
-        pass
+        # base case
+        if self._size == 0:
+            return None
+
+        # initialize the starting place to search the key
+        hash = self._hash_function(key) % self._capacity
+        bucket = self._buckets.get_at_index(hash)
+
+        # create a probe variable
+        probe = 1
+
+        # loop through the hash map to find the key
+        while bucket is not None:
+            # keep probing until the key is found
+            if bucket.is_tombstone is True or bucket.key != key:
+                # quadratic probing
+                hash = (hash + (probe ** 2)) % self._capacity
+                bucket = self._buckets.get_at_index(hash)
+                # increment the probe variable
+                probe += 1
+
+            # found the key
+            else:
+                return bucket.value
+
+        # key not found
+        return None
 
     def contains_key(self, key: str) -> bool:
         """
-        TODO: Write this implementation
+        return True if 'key' exists
+        Otherwise, return False
         """
-        pass
+        if self.get(key):
+            return True
+
+        return False
 
     def remove(self, key: str) -> None:
         """
@@ -98,9 +166,16 @@ class HashMap:
 
     def clear(self) -> None:
         """
-        TODO: Write this implementation
+        clears the hash map table without changing its capacity
         """
-        pass
+        # reset the dynamic array
+        self._buckets = DynamicArray()
+        # append None for each bucket
+        for _ in range(capacity):
+            self._buckets.append(None)
+
+        # reset the size
+        self._size = 0
 
     def get_keys(self) -> DynamicArray:
         """

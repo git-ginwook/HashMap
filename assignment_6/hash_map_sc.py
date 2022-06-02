@@ -83,6 +83,7 @@ class HashMap:
             # insert and update the size
             buck.insert(key, value)
             self._size += 1
+            return
 
         # check if the key already exists
         node = buck.contains(key)
@@ -186,7 +187,14 @@ class HashMap:
         """
         return True if 'key' exists
         Otherwise, return False
+
+        base case:
+        - empty hash map; contains nothing
         """
+        # base case
+        if self._size == 0:
+            return False
+
         # find the right bucket
         hash = self._hash_function(key) % self._capacity
         buck = self._buckets.get_at_index(hash)
