@@ -58,11 +58,19 @@ class HashMap:
         # remember, if the load factor is greater than or equal to 0.5,
         # resize the table before putting the new key/value pair
 
+        # check the current load factor
+        # resize if greater than or equal to 0.5
+        if self.table_load() >= 0.5:
+            self.resize_table(self._capacity * 2)
+
+        #
+        # get the hash
+        init = self._hash_function(key)
+        hash = init % self._capacity
+        prob = 1
+
         # create a key/value pair class
         pair = HashEntry(key, value)
-
-        # get the hash index
-        hash = self._hash_function(key) % self._capacity
 
         # base case
         if self._size == 0:
@@ -70,14 +78,8 @@ class HashMap:
             self._size += 1
             return
 
-        # check the current load factor
-        # resize if greater than or equal to 0.5
-        if self.table_load() >= 0.5:
-            self.resize_table(self._capacity * 2)
-
         # create a starting bucket and a probe variable
         bucket = self._buckets.get_at_index(hash)
-        probe = 1
 
         # check whether the key exists
         exist = self.contains_key(key)
@@ -100,10 +102,10 @@ class HashMap:
                     return
 
             # update quadratic probing
-            hash = (hash + (probe ** 2)) % self._capacity
+            hash = (init + (prob ** 2)) % self._capacity
             bucket = self._buckets.get_at_index(hash)
             # increment the probe variable
-            probe += 1
+            prob += 1
 
         # insert the key/value pair
         self._buckets.set_at_index(hash, pair)
@@ -139,22 +141,31 @@ class HashMap:
         if new_capacity < 1 or new_capacity < self._size:
             return
 
+        # store the current capacity
+        old_capacity = self._capacity
+        self._capacity = new_capacity
+
+        # double the capacity if load factor is greater than or equal to 0.5
+        while self.table_load() >= 0.5:
+            self._capacity = self._capacity * 2
+
         # create a new map
         new_map = DynamicArray()
-        for _ in range(new_capacity):
+        for _ in range(self._capacity):
             new_map.append(None)
 
         #
-        for pos in range(self._capacity):
+        for pos in range(old_capacity):
             curr = self._buckets.get_at_index(pos)
             if curr is not None and curr.is_tombstone is False:
                 # rehash
-                hash = self._hash_function(curr.key) % new_capacity
+                init = self._hash_function(curr.key)
+                hash = init % self._capacity
                 dest = new_map.get_at_index(hash)
                 prob = 1
                 #
                 while dest is not None:
-                    hash = (hash + prob ** 2) % new_capacity
+                    hash = (init + (prob ** 2)) % self._capacity
                     dest = new_map.get_at_index(hash)
                     prob += 1
                 #
@@ -163,7 +174,6 @@ class HashMap:
 
         # update the hash table and its capacity
         self._buckets = new_map
-        self._capacity = new_capacity
 
     def get(self, key: str) -> object:
         """
@@ -178,7 +188,8 @@ class HashMap:
             return None
 
         # initialize the starting place to search the key
-        hash = self._hash_function(key) % self._capacity
+        init = self._hash_function(key)
+        hash = init % self._capacity
         bucket = self._buckets.get_at_index(hash)
 
         # create a probe variable
@@ -189,7 +200,7 @@ class HashMap:
             # keep probing until the key is found
             if bucket.is_tombstone is True or bucket.key != key:
                 # quadratic probing
-                hash = (hash + (probe ** 2)) % self._capacity
+                hash = (init + (probe ** 2)) % self._capacity
                 bucket = self._buckets.get_at_index(hash)
                 # increment the probe variable
                 probe += 1
@@ -214,8 +225,40 @@ class HashMap:
     def remove(self, key: str) -> None:
         """
         TODO: Write this implementation
+        base case:
+        (1) empty hash map; nothing to remove
+        (2) key doesn't exist; nothing to remove
         """
-        pass
+        # base case (1) & (2)
+        if self._size == 0 or self.contains_key(key) is False:
+            return
+
+        # initialize the starting place to search the key
+        init = self._hash_function(key)
+        hash = init % self._capacity
+        bucket = self._buckets.get_at_index(hash)
+
+        # create a probe variable
+        probe = 1
+
+        # loop through the hash map to find the key
+        while bucket:
+            # keep probing until the key is found
+            if bucket.is_tombstone is True or bucket.key != key:
+                # quadratic probing
+                hash = (init + (probe ** 2)) % self._capacity
+                bucket = self._buckets.get_at_index(hash)
+                # increment the probe variable
+                probe += 1
+
+            # found the key
+            else:
+                # remove the key/value pair by setting a tombstone
+                bucket.is_tombstone = True
+                # decrement the size
+                self._size -= 1
+
+                return
 
     def clear(self) -> None:
         """
@@ -224,7 +267,7 @@ class HashMap:
         # reset the dynamic array
         self._buckets = DynamicArray()
         # append None for each bucket
-        for _ in range(capacity):
+        for _ in range(self._capacity):
             self._buckets.append(None)
 
         # reset the size
