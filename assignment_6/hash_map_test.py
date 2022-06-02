@@ -218,5 +218,9 @@ class TestHashMap(unittest.TestCase):
             mode, frequency = find_mode(da)
             print(f"Input: {da}\nMode: {mode}, Frequency: {frequency}\n")
 
+    def test_oa(self):
+        pass
+
+
 if __name__ == '__main__':
     unittest.main()
