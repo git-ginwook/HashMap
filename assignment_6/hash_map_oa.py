@@ -81,25 +81,13 @@ class HashMap:
         # create a starting bucket and a probe variable
         bucket = self._buckets.get_at_index(hash)
 
-        # check whether the key exists
-        exist = self.contains_key(key)
-
         # traverse the hash map using quadratic probing
-        while bucket is not None:
-            # if the key exists
-            if exist:
-                if bucket.key == key:
-                    # update the value
-                    bucket.value = value
-                    return
-
-            # if the key doesn't exist
-            else:
-                if bucket.is_tombstone is True:
-                    # insert the key/value pair
-                    bucket.set_at_index(hash, pair)
-                    self._size += 1
-                    return
+        while bucket is not None and bucket.is_tombstone is False:
+            # update the existing key
+            if bucket.key == key:
+                # update the value
+                bucket.value = value
+                return
 
             # update quadratic probing
             hash = (init + (prob ** 2)) % self._capacity
@@ -141,39 +129,21 @@ class HashMap:
         if new_capacity < 1 or new_capacity < self._size:
             return
 
-        # store the current capacity
-        old_capacity = self._capacity
-        self._capacity = new_capacity
-
-        # double the capacity if load factor is greater than or equal to 0.5
-        while self.table_load() >= 0.5:
-            self._capacity = self._capacity * 2
+        #
 
         # create a new map
-        new_map = DynamicArray()
+        new_map = HashMap(new_capacity, self._hash_function)
+
+        # loop through the old bucket
         for _ in range(self._capacity):
-            new_map.append(None)
+            curr = self._buckets.get_at_index(_)
+            # put() into the new hash map
+            if curr is not None and curr.is_tombstone is False:
+                new_map.put(curr.key, curr.value)
 
         #
-        for pos in range(old_capacity):
-            curr = self._buckets.get_at_index(pos)
-            if curr is not None and curr.is_tombstone is False:
-                # rehash
-                init = self._hash_function(curr.key)
-                hash = init % self._capacity
-                dest = new_map.get_at_index(hash)
-                prob = 1
-                #
-                while dest is not None:
-                    hash = (init + (prob ** 2)) % self._capacity
-                    dest = new_map.get_at_index(hash)
-                    prob += 1
-                #
-                pair = HashEntry(curr.key, curr.value)
-                new_map.set_at_index(hash, pair)
-
-        # update the hash table and its capacity
-        self._buckets = new_map
+        self._buckets = new_map._buckets
+        self._capacity = new_map._capacity
 
     def get(self, key: str) -> object:
         """
@@ -217,10 +187,10 @@ class HashMap:
         return True if 'key' exists
         Otherwise, return False
         """
-        if self.get(key) is not None:
-            return True
+        if self.get(key) is None:
+            return False
 
-        return False
+        return True
 
     def remove(self, key: str) -> None:
         """
@@ -242,7 +212,7 @@ class HashMap:
         probe = 1
 
         # loop through the hash map to find the key
-        while bucket:
+        while bucket is not None:
             # keep probing until the key is found
             if bucket.is_tombstone is True or bucket.key != key:
                 # quadratic probing
