@@ -4,7 +4,15 @@
 # Assignment: 6 - Hash Map Implementation - Open Addressing
 # Due Date: 6/3/2022
 # Description: implement Hash Map that uses open addressing:
-#
+#   1) put(): add or replace a key/value pair
+#   2) get(): fetch a value associated with the given key
+#   3) remove(): remove a key/value pair based on the given key
+#   4) contains_key(): check whether the given key already exists
+#   5) clear(): remove all the contents while maintaining the capacity
+#   6) empty_buckets(): count the number of empty buckets
+#   7) resize_table(): update the capacity and rehash all contents accordingly
+#   8) table_load(): calculate the current load factor
+#   9) get_keys(): list all the keys in a form of a dynamic array
 
 from a6_include import (DynamicArray, HashEntry,
                         hash_function_1, hash_function_2)
@@ -53,23 +61,25 @@ class HashMap:
 
     def put(self, key: str, value: object) -> None:
         """
-        TODO: Write this implementation
-        """
-        # remember, if the load factor is greater than or equal to 0.5,
-        # resize the table before putting the new key/value pair
+        update the hash map using 'key' and 'value'
 
+        if 'key' already exists, update it with new 'value'
+        if not, add a new 'key'/'value' pair
+
+        base case:
+        - empty hash map; insert
+        """
         # check the current load factor
-        # resize if greater than or equal to 0.5
         if self.table_load() >= 0.5:
+            # resize if greater than or equal to 0.5
             self.resize_table(self._capacity * 2)
 
-        #
-        # get the hash
+        # get the first hash variable and initialize a probe value
         init = self._hash_function(key)
         hash = init % self._capacity
         prob = 1
 
-        # create a key/value pair class
+        # create the key/value pair as a HashEntry class
         pair = HashEntry(key, value)
 
         # base case
@@ -78,7 +88,7 @@ class HashMap:
             self._size += 1
             return
 
-        # create a starting bucket and a probe variable
+        # identify the starting bucket
         bucket = self._buckets.get_at_index(hash)
 
         # traverse the hash map using quadratic probing
@@ -95,7 +105,7 @@ class HashMap:
             # increment the probe variable
             prob += 1
 
-        # insert the key/value pair
+        # insert the key/value pair when the bucket is None or is a tombstone
         self._buckets.set_at_index(hash, pair)
         self._size += 1
 
@@ -118,30 +128,27 @@ class HashMap:
 
     def resize_table(self, new_capacity: int) -> None:
         """
-        TODO: Write this implementation
+        change the capacity while rehashing all the existing key/value pairs
+
         base case:
         - new_capacity is less than 1
         - new_capacity is less than the number of elements in the map
         """
-        # remember to rehash non-deleted entries into new table
-
         # base case
         if new_capacity < 1 or new_capacity < self._size:
             return
 
-        #
-
-        # create a new map
+        # create a new hash map
         new_map = HashMap(new_capacity, self._hash_function)
 
         # loop through the old bucket
         for _ in range(self._capacity):
             curr = self._buckets.get_at_index(_)
-            # put() into the new hash map
+            # copy to the new hash map if 'curr' contains a live pair
             if curr is not None and curr.is_tombstone is False:
                 new_map.put(curr.key, curr.value)
 
-        #
+        # update the hash map properties
         self._buckets = new_map._buckets
         self._capacity = new_map._capacity
 
@@ -167,7 +174,7 @@ class HashMap:
 
         # loop through the hash map to find the key
         while bucket is not None:
-            # keep probing until the key is found
+            # keep probing if 'bucket' is a tombstone or its key doesn't match
             if bucket.is_tombstone is True or bucket.key != key:
                 # quadratic probing
                 hash = (init + (probe ** 2)) % self._capacity
@@ -194,13 +201,13 @@ class HashMap:
 
     def remove(self, key: str) -> None:
         """
-        TODO: Write this implementation
+        remove a HashEntry class associated with 'key'
+
         base case:
-        (1) empty hash map; nothing to remove
-        (2) key doesn't exist; nothing to remove
+        - empty hash map; nothing to remove
         """
-        # base case (1) & (2)
-        if self._size == 0 or self.contains_key(key) is False:
+        # base case
+        if self._size == 0:
             return
 
         # initialize the starting place to search the key
@@ -213,7 +220,7 @@ class HashMap:
 
         # loop through the hash map to find the key
         while bucket is not None:
-            # keep probing until the key is found
+            # keep probing if 'bucket' is a tombstone or its key doesn't match
             if bucket.is_tombstone is True or bucket.key != key:
                 # quadratic probing
                 hash = (init + (probe ** 2)) % self._capacity
@@ -230,9 +237,12 @@ class HashMap:
 
                 return
 
+        # key not found
+        return
+
     def clear(self) -> None:
         """
-        clears the hash map table without changing its capacity
+        clear the hash map table without changing its capacity
         """
         # reset the dynamic array
         self._buckets = DynamicArray()

@@ -4,9 +4,9 @@
 # Assignment: 6 - Hash Map Implementation - Chaining
 # Due Date: 6/3/2022
 # Description: implement Hash Map that uses chaining:
-#   1) put(): add or replace a key / value pair
+#   1) put(): add or replace a key/value pair
 #   2) get(): fetch a value associated with the given key
-#   3) remove(): remove a key / value pair based on the given key
+#   3) remove(): remove a key/value pair based on the given key
 #   4) contains_key(): check whether the given key already exists
 #   5) clear(): remove all the contents while maintaining the capacity
 #   6) empty_buckets(): count the number of empty buckets
@@ -122,7 +122,7 @@ class HashMap:
 
     def clear(self) -> None:
         """
-        clears the hash map table without changing its capacity
+        clear the hash map table without changing its capacity
         """
         # reset Dynamic Array
         self._buckets = DynamicArray()
